@@ -1,0 +1,133 @@
+# Update Templates to Support All 16 IELTS Question Types
+
+The [IELTS_TEST_CREATION_GUIDE.md](file:///c:/cd-mock/IELTS_TEST_CREATION_GUIDE.md) defines **16 question types** with specific data structures and UI rendering rules. The existing templates only handle a subset. This plan upgrades both reading and listening templates to support all types, and updates the AI processor to use the guide's data model.
+
+## Gap Analysis
+
+### Current vs Required Question Types
+
+| Guide Type | Internal Code | Reading | Listening | Status |
+|---|---|:---:|:---:|---|
+| `TRUE_FALSE_NOT_GIVEN` | `tfng` | ✅ | — | **Exists** |
+| `YES_NO_NOT_GIVEN` | `ynnng` | ❌ | — | **NEW** — identical to tfng with YES/NO labels |
+| `MULTIPLE_CHOICE` | `mcq` | ✅ | ✅ | **Exists** |
+| `MULTIPLE_ANSWER` | `multi` | ❌ | ✅ | **NEW for reading** |
+| `NOTE_COMPLETION` | `note` | ❌ | ✅ | **NEW for reading** — uses `{N}` template |
+| `SENTENCE_COMPLETION` | `fill` | ✅ | — | **Exists** (rename-compatible) |
+| `SUMMARY_COMPLETION` | `summary` | ❌ | — | **NEW** — paragraph with blanks |
+| `SUMMARY_COMPLETION_DRAG_DROP` | `dragdrop` | ❌ | — | **NEW** — word bank + drag |
+| `SHORT_ANSWER` | `short` | ❌ | ❌ | **NEW** — question + text input |
+| `TABLE_COMPLETION` | `table` | ❌ | ❌ | **NEW** — renders HTML table with inputs |
+| `FLOW_CHART_COMPLETION` | `flowchart` | ❌ | ❌ | **NEW** — HTML flowchart with blanks |
+| `MATCHING_HEADINGS` | [select](file:///c:/cd-mock/builder.js#21-30) | ✅ | — | **Exists** (needs enhancement) |
+| `MATCHING_INFORMATION` | `matchinfo` | ❌ | — | **NEW** — dropdown per statement |
+| `MATCHING_FEATURES` | `matchfeat` | ❌ | ✅ | **Enhance** — uses `match` but needs dropdown |
+| `MATCHING_SENTENCE_ENDINGS` | `matchend` | ❌ | — | **NEW** — sentence start + endings list |
+| `DIAGRAM_LABELLING` | `diagram` | ❌ | ❌ | **NEW** — image + numbered inputs |
+| `PLAN_MAP_LABELLING` | `planmap` | ❌ | ❌ | **NEW** — map image + dropdown |
+
+### Data Structure Changes
+
+The guide uses a **hierarchical model**: Question groups → Sub-questions + Options. The current templates use flat structures. We need to adopt the guide's data model to ensure the AI processor can output data that the templates can render.
+
+**New unified question data structure:**
+```js
+{
+  type: "TRUE_FALSE_NOT_GIVEN",  // guide enum
+  section: "Questions 1-6",
+  instruction: "...",
+  questionText: "",              // optional HTML context
+  headingOptions: {},            // for MATCHING_HEADINGS
+  tableData: {},                 // for TABLE_COMPLETION
+  questions: [                   // sub-questions
+    { questionNumber: 1, questionText: "...", correctAnswer: "TRUE" }
+  ],
+  options: [                     // for MCQ, MULTI, DRAG_DROP, MATCH types
+    { optionKey: "A", optionText: "...", isCorrect: false }
+  ]
+}
+```
+
+## Proposed Changes
+
+---
+
+### Reading Template
+
+#### [MODIFY] [app.js](file:///c:/cd-mock/app.js)
+
+**Data structure update**: Transform `TEST_DATA` to use the guide's unified structure. All question types will use the `questions[]` (sub-questions) and `options[]` pattern from [IELTS_TEST_CREATION_GUIDE.md](file:///c:/cd-mock/IELTS_TEST_CREATION_GUIDE.md).
+
+**New renderers to add** (12 new question type handlers):
+1. `ynnng` — YES/NO/NOT GIVEN (3 radio buttons, different labels from tfng)
+2. `multi` — MULTIPLE_ANSWER (checkboxes from options[])
+3. `note` — NOTE_COMPLETION (HTML template with `{N}` → input fields)
+4. `summary` — SUMMARY_COMPLETION (paragraph with inline blanks)
+5. `dragdrop` — SUMMARY_COMPLETION_DRAG_DROP (word bank + drop zones)
+6. `short` — SHORT_ANSWER (question text + input)
+7. `table` — TABLE_COMPLETION (rendered HTML table with input cells)
+8. `flowchart` — FLOW_CHART_COMPLETION (HTML content with inputs)
+9. `matchinfo` — MATCHING_INFORMATION (statement + paragraph dropdown)
+10. `matchfeat` — MATCHING_FEATURES (statement + feature dropdown)
+11. `matchend` — MATCHING_SENTENCE_ENDINGS (sentence start + endings dropdown)
+12. `diagram` — DIAGRAM_LABELLING (image + numbered inputs)
+13. `planmap` — PLAN_MAP_LABELLING (map image + options dropdown)
+
+**Scoring update**: [submitTest()](file:///c:/cd-mock/listening.js#550-639) must handle all 16 types for correct/incorrect determination.
+
+---
+
+### Listening Template
+
+#### [MODIFY] [listening.js](file:///c:/cd-mock/listening.js)
+
+Same new renderers as reading (where applicable to listening tests). The listening template already handles `note`, `mcq`, `multi`, `match`. Additions needed:
+- `ynnng`, `summary`, `dragdrop`, `short`, `table`, `flowchart`, `matchinfo`, `matchfeat`, `matchend`, `diagram`, `planmap`
+- `tfng` (also possible in listening)
+
+**Scoring update**: [submitTest()](file:///c:/cd-mock/listening.js#550-639) must handle all types.
+
+---
+
+### AI Processor
+
+#### [MODIFY] [ai-processor.js](file:///c:/cd-mock/ai-processor.js)
+
+Update system prompts for both reading and listening to:
+1. Use the guide's **16 enum type names** as the `type` field
+2. Output the **unified data structure** (`questions[]` + `options[]` + `headingOptions` + `tableData`)
+3. Include UI rendering hints per type
+
+---
+
+### Template Generator
+
+#### [MODIFY] [template-generator.js](file:///c:/cd-mock/template-generator.js)
+
+Update data injection to map the guide's data model into the template's expected format. The generator must transform AI output (guide format) → template data format.
+
+---
+
+### CSS Updates
+
+#### [MODIFY] [style.css](file:///c:/cd-mock/style.css)
+
+Add styles for new question types: drag-and-drop zones, table completion inputs, flowchart boxes, diagram labels, matching sentence panels.
+
+#### [MODIFY] [listening.css](file:///c:/cd-mock/listening.css)
+
+Same new styles for listening-specific variants.
+
+---
+
+## Verification Plan
+
+### Automated Tests
+- Run `node server.js` and verify builder still works
+- Upload test files and verify AI generates all 16 question types correctly
+- Verify generated HTML renders each question type properly
+
+### Manual Verification
+- Test each question type visually in the browser
+- Verify scoring works for all 16 types
+- Test drag-and-drop, table completion, and diagram labelling interactivity

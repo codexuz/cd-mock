@@ -718,10 +718,17 @@ document.addEventListener("mouseup", e => {
     return;
   }
 
-  // Check if selection is inside passage panel
+  // Check if selection is inside passage panel or questions panel
   const range = sel.getRangeAt(0);
-  if (!passage.contains(range.commonAncestorContainer)) {
+  const questions = document.getElementById("questionsPanel");
+  if (!passage.contains(range.commonAncestorContainer) && !questions.contains(range.commonAncestorContainer)) {
     toolbar.classList.remove("show");
+    return;
+  }
+
+  // Don't highlight inside input/select elements
+  const anchor = sel.anchorNode && sel.anchorNode.parentElement;
+  if (anchor && (anchor.tagName === 'INPUT' || anchor.tagName === 'SELECT' || anchor.tagName === 'TEXTAREA')) {
     return;
   }
 

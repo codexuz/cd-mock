@@ -879,3 +879,124 @@ function retakeTest() {
   document.getElementById("audioOverlay").classList.remove("hidden");
   renderPart(1);
 }
+
+// ============================
+// HIGHLIGHT SYSTEM
+// ============================
+let savedSelection = null;
+let activeHlId = null;
+let hlIdCounter = 0;
+
+// --- Selection & toolbar ---
+document.addEventListener("mouseup", e => {
+  const toolbar = document.getElementById("hlToolbar");
+  const questions = document.getElementById("questionsPanel");
+
+  // If clicking inside toolbar, do nothing
+  if (toolbar.contains(e.target)) return;
+
+  const sel = window.getSelection();
+  if (!sel || sel.isCollapsed || !sel.rangeCount) {
+    setTimeout(() => {
+      if (!toolbar.matches(":hover")) toolbar.classList.remove("show");
+    }, 150);
+    return;
+  }
+
+  // Check if selection is inside questions panel
+  const range = sel.getRangeAt(0);
+  if (!questions.contains(range.commonAncestorContainer)) {
+    toolbar.classList.remove("show");
+    return;
+  }
+
+  // Don't highlight inside input/select elements
+  const anchor = sel.anchorNode && sel.anchorNode.parentElement;
+  if (anchor && (anchor.tagName === 'INPUT' || anchor.tagName === 'SELECT' || anchor.tagName === 'TEXTAREA')) {
+    return;
+  }
+
+  const text = sel.toString().trim();
+  if (!text) { toolbar.classList.remove("show"); return; }
+
+  // Position toolbar above selection
+  const rect = range.getBoundingClientRect();
+  toolbar.style.left = `${rect.left + rect.width / 2 - 90}px`;
+  toolbar.style.top = `${rect.top - 44}px`;
+  toolbar.classList.add("show");
+  savedSelection = { range: range.cloneRange(), text };
+});
+
+// Hide toolbar when clicking elsewhere
+document.addEventListener("mousedown", e => {
+  const toolbar = document.getElementById("hlToolbar");
+  if (!toolbar.contains(e.target)) {
+    toolbar.classList.remove("show");
+  }
+});
+
+// --- Apply highlight ---
+function applyHighlight(color) {
+  if (!savedSelection) return;
+  const toolbar = document.getElementById("hlToolbar");
+  toolbar.classList.remove("show");
+
+  const range = savedSelection.range;
+  const span = document.createElement("span");
+  span.className = `hl-${color}`;
+  const id = `hl-${++hlIdCounter}`;
+  span.dataset.hlId = id;
+  span.title = "Click to edit highlight";
+  span.addEventListener("click", () => showToolbarOnHighlight(span));
+
+  try {
+    range.surroundContents(span);
+  } catch {
+    const frag = range.extractContents();
+    span.appendChild(frag);
+    range.insertNode(span);
+  }
+
+  window.getSelection().removeAllRanges();
+  savedSelection = null;
+}
+
+function showToolbarOnHighlight(span) {
+  const toolbar = document.getElementById("hlToolbar");
+  const rect = span.getBoundingClientRect();
+  toolbar.style.left = `${rect.left + rect.width / 2 - 90}px`;
+  toolbar.style.top = `${rect.top - 44}px`;
+  toolbar.classList.add("show");
+  activeHlId = span.dataset.hlId;
+  savedSelection = null;
+}
+
+function eraseHighlight() {
+  const toolbar = document.getElementById("hlToolbar");
+  toolbar.classList.remove("show");
+
+  if (activeHlId) {
+    const span = document.querySelector(`[data-hl-id="${activeHlId}"]`);
+    if (span) {
+      const parent = span.parentNode;
+      while (span.firstChild) parent.insertBefore(span.firstChild, span);
+      parent.removeChild(span);
+      parent.normalize();
+    }
+    activeHlId = null;
+    return;
+  }
+
+  if (savedSelection) {
+    const container = savedSelection.range.commonAncestorContainer;
+    const hlSpan = container.closest ? container.closest("[data-hl-id]") :
+      container.parentElement ? container.parentElement.closest("[data-hl-id]") : null;
+    if (hlSpan) {
+      const parent = hlSpan.parentNode;
+      while (hlSpan.firstChild) parent.insertBefore(hlSpan.firstChild, hlSpan);
+      parent.removeChild(hlSpan);
+      parent.normalize();
+    }
+  }
+  savedSelection = null;
+}

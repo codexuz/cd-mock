@@ -12,10 +12,6 @@ let generatedHtml = null;
 document.addEventListener('DOMContentLoaded', () => {
     setupDropzone();
     setupFileInput();
-
-    // Restore API key from sessionStorage (convenience, not persisted)
-    const savedKey = sessionStorage.getItem('ielts_api_key');
-    if (savedKey) document.getElementById('apiKey').value = savedKey;
 });
 
 // ============================
@@ -29,13 +25,8 @@ function selectType(type) {
 }
 
 // ============================
-// API KEY TOGGLE
+// TYPE SELECTION
 // ============================
-function toggleKeyVisibility() {
-    const input = document.getElementById('apiKey');
-    const isPassword = input.type === 'password';
-    input.type = isPassword ? 'text' : 'password';
-}
 
 // ============================
 // DROPZONE
@@ -115,22 +106,11 @@ function formatSize(bytes) {
 // GENERATION
 // ============================
 async function startGeneration() {
-    const apiKey = document.getElementById('apiKey').value.trim();
-
     // Validate
-    if (!apiKey) {
-        showError('Please enter your OpenAI API key.');
-        document.getElementById('apiKey').focus();
-        return;
-    }
-
     if (!selectedFile) {
         showError('Please upload a test file first.');
         return;
     }
-
-    // Save key for session
-    sessionStorage.setItem('ielts_api_key', apiKey);
 
     // Show progress
     showProgress();
@@ -141,7 +121,6 @@ async function startGeneration() {
 
         const formData = new FormData();
         formData.append('file', selectedFile);
-        formData.append('apiKey', apiKey);
         formData.append('testType', selectedType);
 
         const uploadRes = await fetch('/api/upload', {

@@ -1364,29 +1364,36 @@ body {
 /* Matching Features / Plan Map Labels / Word Banks */
 .match-options-panel {
   background: var(--surface);
-  border: 1px dashed var(--border);
+  border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 14px 16px;
+  padding: 16px 20px;
   margin-bottom: 16px;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 8px;
   font-size: 13.5px;
 }
 
+.match-options-panel>strong {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--text);
+  text-align: center;
+}
+
 .match-option-chip {
-  background: var(--bg);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 4px 10px;
-  font-size: 13px;
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 4px 0;
+  font-size: 13.5px;
   color: var(--text);
 }
 
 .match-option-chip strong {
   color: var(--primary);
-  margin-right: 4px;
+  font-weight: 700;
+  min-width: 18px;
+  text-align: right;
 }
 
 /* diagram & plan map */

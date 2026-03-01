@@ -5,7 +5,7 @@ const path = require('path');
 // READ TEMPLATE FILES
 // ============================
 function readFile(filename) {
-    return fs.readFileSync(path.join(__dirname, filename), 'utf-8');
+    return fs.readFileSync(path.join(__dirname, '../public', filename), 'utf-8');
 }
 
 // ============================

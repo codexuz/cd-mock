@@ -12,37 +12,47 @@ const TEST_DATA = {
       <p>In 1891 this promise was fulfilled and Marie went to Paris and began to study at the Sorbonne (the University of Paris). She often worked far into the night and lived on little more than bread and butter and tea. She came first in the examination in the physical sciences in 1893, and in 1894 was placed second in the examination in mathematical sciences. It was not until the spring of that year that she was introduced to Pierre Curie.</p>
       <p>Their marriage in 1895 marked the start of a partnership that was soon to achieve results of world significance. Following Henri Becquerel's discovery in 1896 of a new phenomenon, which Marie later called 'radioactivity', Marie Curie decided to find out if the radioactivity discovered in uranium was to be found in other elements. She discovered that this was true for thorium.</p>
       <p>Turning her attention to minerals, she found her interest drawn to pitchblende, a mineral whose radioactivity, superior to that of pure uranium, could be explained only by the presence in the ore of small quantities of an unknown substance of very high activity. Pierre Curie joined in the work that she had undertaken to resolve this problem, and that led to the discovery of the new elements, polonium and radium. While Pierre Curie devoted himself chiefly to the physical study of the new radiations, Marie Curie struggled to obtain pure radium in the metallic state. This was achieved with the help of the chemist André Louis Debierne, one of Pierre Curie's pupils. Based on the results of this research, Marie Curie received her Doctorate of Science, and in 1903 Marie and Pierre shared with Becquerel the Nobel Prize for Physics for the discovery of radioactivity.</p>
-      <p>The게births of Marie's two daughters, Irène and Ève, in 1897 and 1904 failed to interrupt her scientific work. She was appointed lecturer in physics at the École Normale Supérieure for girls in Sèvres, France (1900), and introduced a method of teaching based on experimental demonstrations. In 1906 ثPierre Curie was killed by a horse-drawn cart in Paris. Marie was devastated by this, but resolved to go on with their work. She was given Pierre's teaching post at the Sorbonne, thus becoming the university's first female professor.</p>
+      <p>The births of Marie's two daughters, Irène and Ève, in 1897 and 1904 failed to interrupt her scientific work. She was appointed lecturer in physics at the École Normale Supérieure for girls in Sèvres, France (1900), and introduced a method of teaching based on experimental demonstrations. In 1906 Pierre Curie was killed by a horse-drawn cart in Paris. Marie was devastated by this, but resolved to go on with their work. She was given Pierre's teaching post at the Sorbonne, thus becoming the university's first female professor.</p>
       <p>In 1911, Marie Curie received the Nobel Prize for Chemistry, for the isolation of pure radium. During World War I, Marie Curie, with the help of her daughter Irène, devoted herself to the development of the use of X-radiography, including the mobile units which came to be known as 'petites Curies', used for treating wounded soldiers. In 1918, the Curie Institute was founded with the aim of promoting research in physics, chemistry and biology. Marie Curie, now combating fatigue and ill-health, continued to work on radioactive materials, researching the medical uses of these elements.</p>
-      <p>Marie Curie saw the importance of collecting radioactive material both for research and for cases of diseases which could be treated with radioactivity. The게 게radioactive material stocked in Paris contributed to the discoveries in the 1930s of the neutron and of what was known as artificial radioactivity. Shortly after these discoveries, Marie Curie died of leukaemia, which was caused by the radiation to which she had been exposed over many years.</p>
+      <p>Marie Curie saw the importance of collecting radioactive material both for research and for cases of diseases which could be treated with radioactivity. The radioactive material stocked in Paris contributed to the discoveries in the 1930s of the neutron and of what was known as artificial radioactivity. Shortly after these discoveries, Marie Curie died of leukaemia, which was caused by the radiation to which she had been exposed over many years.</p>
     `,
     questions: [
       {
         section: "Questions 1-6",
-        instructions: 'Choose <strong>TRUE</strong> if the statement agrees with the information given in the text, choose <strong>FALSE</strong> if the statement contradicts the information, or choose <strong>NOT GIVEN</strong> if there is no information on this.',
-        type: "tfng",
-        items: [
-          { num: 1, text: "Marie Curie's husband was a joint winner of both Marie's Nobel Prizes.", answer: "FALSE" },
-          { num: 2, text: "Marie became interested in science when she was a child.", answer: "NOT GIVEN" },
-          { num: 3, text: "Marie was able to attend the Sorbonne because of her sister's financial contribution.", answer: "FALSE" },
-          { num: 4, text: "Marie stopped doing research for several years when her children were born.", answer: "FALSE" },
-          { num: 5, text: "Marie took over the teaching position her husband had held.", answer: "TRUE" },
-          { num: 6, text: "Marie's sister Bronia studied the medical uses of radioactivity.", answer: "NOT GIVEN" }
+        instruction: 'Choose <strong>TRUE</strong> if the statement agrees with the information given in the text, choose <strong>FALSE</strong> if the statement contradicts the information, or choose <strong>NOT GIVEN</strong> if there is no information on this.',
+        type: "TRUE_FALSE_NOT_GIVEN",
+        questions: [
+          { questionNumber: 1, questionText: "Marie Curie's husband was a joint winner of both Marie's Nobel Prizes.", correctAnswer: "FALSE" },
+          { questionNumber: 2, questionText: "Marie became interested in science when she was a child.", correctAnswer: "NOT GIVEN" },
+          { questionNumber: 3, questionText: "Marie was able to attend the Sorbonne because of her sister's financial contribution.", correctAnswer: "FALSE" },
+          { questionNumber: 4, questionText: "Marie stopped doing research for several years when her children were born.", correctAnswer: "FALSE" },
+          { questionNumber: 5, questionText: "Marie took over the teaching position her husband had held.", correctAnswer: "TRUE" },
+          { questionNumber: 6, questionText: "Marie's sister Bronia studied the medical uses of radioactivity.", correctAnswer: "NOT GIVEN" }
         ]
       },
       {
         section: "Questions 7-13",
-        instructions: 'Complete the notes below. Choose <strong>ONE WORD</strong> from the passage for each answer.',
-        type: "fill",
-        title: "Marie Curie's research on radioactivity",
-        items: [
-          { num: 7, before: "When uranium was discovered to be radioactive, Marie Curie found that the element called", after: "had the same property.", answer: "thorium" },
-          { num: 8, before: "Marie and Pierre Curie's research into the radioactivity of the mineral known as", after: "led to the discovery of two new elements.", answer: "pitchblende" },
-          { num: 9, before: "In 1__(year)__, Marie Curie received recognition for her work on the element", after: ".", answer: "radium" },
-          { num: 10, before: "Marie and Irène Curie developed X-radiography which was used as a medical technique for", after: ".", answer: "soldiers" },
-          { num: 11, before: "Marie Curie saw the importance of collecting radioactive material both for research and for cases of", after: ".", answer: "diseases" },
-          { num: 12, before: "The radioactive material stocked in Paris contributed to the discoveries in the 1930s of the", after: "and of what was known as artificial radioactivity.", answer: "neutron" },
-          { num: 13, before: "During her research, Marie Curie was exposed to radiation and as a result she suffered from", after: ".", answer: "leukaemia" }
+        instruction: 'Complete the notes below. Choose <strong>ONE WORD</strong> from the passage for each answer.',
+        type: "NOTE_COMPLETION",
+        questionText: `
+          <h4>Marie Curie's research on radioactivity</h4>
+          <ul>
+            <li>When uranium was discovered to be radioactive, Marie Curie found that the element called {7} had the same property.</li>
+            <li>Marie and Pierre Curie's research into the radioactivity of the mineral known as {8} led to the discovery of two new elements.</li>
+            <li>In 1__(year)__, Marie Curie received recognition for her work on the element {9}.</li>
+            <li>Marie and Irène Curie developed X-radiography which was used as a medical technique for {10}.</li>
+            <li>Marie Curie saw the importance of collecting radioactive material both for research and for cases of {11}.</li>
+            <li>The radioactive material stocked in Paris contributed to the discoveries in the 1930s of the {12} and of what was known as artificial radioactivity.</li>
+            <li>During her research, Marie Curie was exposed to radiation and as a result she suffered from {13}.</li>
+          </ul>`,
+        questions: [
+          { questionNumber: 7, correctAnswer: "thorium" },
+          { questionNumber: 8, correctAnswer: "pitchblende" },
+          { questionNumber: 9, correctAnswer: "radium" },
+          { questionNumber: 10, correctAnswer: "soldiers" },
+          { questionNumber: 11, correctAnswer: "diseases" },
+          { questionNumber: 12, correctAnswer: "neutron" },
+          { questionNumber: 13, correctAnswer: "leukaemia" }
         ]
       }
     ]
@@ -64,41 +74,50 @@ const TEST_DATA = {
     questions: [
       {
         section: "Questions 14-19",
-        instructions: 'The reading passage has seven paragraphs, <strong>A-G</strong>. Choose the correct heading for each paragraph from the list below.',
-        type: "select",
-        headings: [
-          "i. A response to environmental concerns",
-          "ii. Buildings that divided opinion",
-          "iii. Rejecting simplicity in favour of fun",
-          "iv. The origins of a new approach to building",
-          "v. Technology transforms the profession",
-          "vi. A worldwide architectural language",
-          "vii. Architecture as controlled disorder",
-          "viii. Early experiments with concrete",
-          "ix. Form follows function"
-        ],
-        items: [
-          { num: 14, text: "Paragraph A", answer: "iv" },
-          { num: 15, text: "Paragraph B", answer: "vi" },
-          { num: 16, text: "Paragraph C", answer: "ii" },
-          { num: 17, text: "Paragraph D", answer: "iii" },
-          { num: 18, text: "Paragraph E", answer: "vii" },
-          { num: 19, text: "Paragraph F", answer: "i" }
+        instruction: 'The reading passage has seven paragraphs, <strong>A-G</strong>. Choose the correct heading for each paragraph from the list below.',
+        type: "MATCHING_HEADINGS",
+        headingOptions: {
+          "i": "A response to environmental concerns",
+          "ii": "Buildings that divided opinion",
+          "iii": "Rejecting simplicity in favour of fun",
+          "iv": "The origins of a new approach to building",
+          "v": "Technology transforms the profession",
+          "vi": "A worldwide architectural language",
+          "vii": "Architecture as controlled disorder",
+          "viii": "Early experiments with concrete",
+          "ix": "Form follows function"
+        },
+        questions: [
+          { questionNumber: 14, questionText: "Paragraph A", correctAnswer: "iv" },
+          { questionNumber: 15, questionText: "Paragraph B", correctAnswer: "vi" },
+          { questionNumber: 16, questionText: "Paragraph C", correctAnswer: "ii" },
+          { questionNumber: 17, questionText: "Paragraph D", correctAnswer: "iii" },
+          { questionNumber: 18, questionText: "Paragraph E", correctAnswer: "vii" },
+          { questionNumber: 19, questionText: "Paragraph F", correctAnswer: "i" }
         ]
       },
       {
         section: "Questions 20-26",
-        instructions: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
-        type: "fill",
-        title: "Key concepts in modern architecture",
-        items: [
-          { num: 20, before: "Le Corbusier compared a house to a", after: ".", answer: "machine" },
-          { num: 21, before: "The International Style was characterised by clean lines and the rejection of applied", after: ".", answer: "ornament" },
-          { num: 22, before: "Brutalist architecture gets its name from the French term for raw", after: ".", answer: "concrete" },
-          { num: 23, before: "Robert Venturi declared that 'Less is a", after: "'.", answer: "bore" },
-          { num: 24, before: "The Guggenheim Museum in Bilbao demonstrated architecture's role as a cultural symbol and economic", after: ".", answer: "catalyst" },
-          { num: 25, before: "Architects combat climate change through energy-efficient design and use of renewable", after: ".", answer: "materials" },
-          { num: 26, before: "3D printing and robotic fabrication may lead to structures built with minimal", after: ".", answer: "waste" }
+        instruction: 'Complete the sentences below. Choose <strong>NO MORE THAN TWO WORDS</strong> from the passage for each answer.',
+        type: "SENTENCE_COMPLETION",
+        questionText: `
+          <h4>Key concepts in modern architecture</h4>
+          <div class="sentence-item">Le Corbusier compared a house to a {20}.</div>
+          <div class="sentence-item">The International Style was characterised by clean lines and the rejection of applied {21}.</div>
+          <div class="sentence-item">Brutalist architecture gets its name from the French term for raw {22}.</div>
+          <div class="sentence-item">Robert Venturi declared that 'Less is a {23}'.</div>
+          <div class="sentence-item">The Guggenheim Museum in Bilbao demonstrated architecture's role as a cultural symbol and economic {24}.</div>
+          <div class="sentence-item">Architects combat climate change through energy-efficient design and use of renewable {25}.</div>
+          <div class="sentence-item">3D printing and robotic fabrication may lead to structures built with minimal {26}.</div>
+        `,
+        questions: [
+          { questionNumber: 20, correctAnswer: "machine" },
+          { questionNumber: 21, correctAnswer: "ornament" },
+          { questionNumber: 22, correctAnswer: "concrete" },
+          { questionNumber: 23, correctAnswer: "bore" },
+          { questionNumber: 24, correctAnswer: "catalyst" },
+          { questionNumber: 25, correctAnswer: "materials" },
+          { questionNumber: 26, correctAnswer: "waste" }
         ]
       }
     ]
@@ -120,91 +139,94 @@ const TEST_DATA = {
     questions: [
       {
         section: "Questions 27-32",
-        instructions: 'Choose the correct letter, <strong>A, B, C or D</strong>.',
-        type: "mcq",
-        items: [
+        instruction: 'Choose the correct letter, <strong>A, B, C or D</strong>.',
+        type: "MULTIPLE_CHOICE",
+        questions: [
           {
-            num: 27,
-            text: "According to the Oxford University study, which types of jobs are most at risk from automation?",
+            questionNumber: 27,
+            questionText: "According to the Oxford University study, which types of jobs are most at risk from automation?",
             options: [
-              { label: "A", text: "Those requiring creativity and social skills" },
-              { label: "B", text: "Those involving routine, repetitive tasks" },
-              { label: "C", text: "Those in the healthcare sector" },
-              { label: "D", text: "Those requiring complex problem-solving" }
+              { optionKey: "A", optionText: "Those requiring creativity and social skills", isCorrect: false },
+              { optionKey: "B", optionText: "Those involving routine, repetitive tasks", isCorrect: true },
+              { optionKey: "C", optionText: "Those in the healthcare sector", isCorrect: false },
+              { optionKey: "D", optionText: "Those requiring complex problem-solving", isCorrect: false }
             ],
-            answer: "B"
+            correctAnswer: "B"
           },
           {
-            num: 28,
-            text: "What does the McKinsey report suggest about the impact of AI on jobs?",
+            questionNumber: 28,
+            questionText: "What does the McKinsey report suggest about the impact of AI on jobs?",
             options: [
-              { label: "A", text: "Most jobs will be entirely replaced by AI" },
-              { label: "B", text: "AI will have little impact on existing jobs" },
-              { label: "C", text: "AI will mainly change tasks within jobs rather than eliminate them" },
-              { label: "D", text: "Only 5% of jobs will be affected by AI" }
+              { optionKey: "A", optionText: "Most jobs will be entirely replaced by AI", isCorrect: false },
+              { optionKey: "B", optionText: "AI will have little impact on existing jobs", isCorrect: false },
+              { optionKey: "C", optionText: "AI will mainly change tasks within jobs rather than eliminate them", isCorrect: true },
+              { optionKey: "D", optionText: "Only 5% of jobs will be affected by AI", isCorrect: false }
             ],
-            answer: "C"
+            correctAnswer: "C"
           },
           {
-            num: 29,
-            text: "How has AI affected the customer service industry?",
+            questionNumber: 29,
+            questionText: "How has AI affected the customer service industry?",
             options: [
-              { label: "A", text: "It has completely replaced customer service workers" },
-              { label: "B", text: "It has had no significant impact" },
-              { label: "C", text: "It has reduced some roles but created new ones" },
-              { label: "D", text: "It has only been used for scheduling appointments" }
+              { optionKey: "A", optionText: "It has completely replaced customer service workers", isCorrect: false },
+              { optionKey: "B", optionText: "It has had no significant impact", isCorrect: false },
+              { optionKey: "C", optionText: "It has reduced some roles but created new ones", isCorrect: true },
+              { optionKey: "D", optionText: "It has only been used for scheduling appointments", isCorrect: false }
             ],
-            answer: "C"
+            correctAnswer: "C"
           },
           {
-            num: 30,
-            text: "What is the writer's view of AI in healthcare?",
+            questionNumber: 30,
+            questionText: "What is the writer's view of AI in healthcare?",
             options: [
-              { label: "A", text: "It will eventually replace doctors entirely" },
-              { label: "B", text: "It is best seen as enhancing rather than replacing human professionals" },
-              { label: "C", text: "It is not accurate enough for medical use" },
-              { label: "D", text: "It is only useful for administrative tasks" }
+              { optionKey: "A", optionText: "It will eventually replace doctors entirely", isCorrect: false },
+              { optionKey: "B", optionText: "It is best seen as enhancing rather than replacing human professionals", isCorrect: true },
+              { optionKey: "C", optionText: "It is not accurate enough for medical use", isCorrect: false },
+              { optionKey: "D", text: "It is only useful for administrative tasks", isCorrect: false }
             ],
-            answer: "B"
+            correctAnswer: "B"
           },
           {
-            num: 31,
-            text: "What does the passage suggest about AI in creative industries?",
+            questionNumber: 31,
+            questionText: "What does the passage suggest about AI in creative industries?",
             options: [
-              { label: "A", text: "AI will soon replace human artists completely" },
-              { label: "B", text: "AI-generated art has more emotional depth than human art" },
-              { label: "C", text: "The best use of AI is as a collaborative tool for human creators" },
-              { label: "D", text: "AI cannot produce any form of creative work" }
+              { optionKey: "A", optionText: "AI will soon replace human artists completely", isCorrect: false },
+              { optionKey: "B", optionText: "AI-generated art has more emotional depth than human art", isCorrect: false },
+              { optionKey: "C", optionText: "The best use of AI is as a collaborative tool for human creators", isCorrect: true },
+              { optionKey: "D", optionText: "AI cannot produce any form of creative work", isCorrect: false }
             ],
-            answer: "C"
+            correctAnswer: "C"
           },
           {
-            num: 32,
-            text: "According to the passage, what skills should education focus on?",
+            questionNumber: 32,
+            questionText: "According to the passage, what skills should education focus on?",
             options: [
-              { label: "A", text: "Programming and data science" },
-              { label: "B", text: "Routine, repetitive tasks" },
-              { label: "C", text: "Critical thinking, emotional intelligence and ethical reasoning" },
-              { label: "D", text: "Operating AI systems" }
+              { optionKey: "A", optionText: "Programming and data science", isCorrect: false },
+              { optionKey: "B", optionText: "Routine, repetitive tasks", isCorrect: false },
+              { optionKey: "C", optionText: "Critical thinking, emotional intelligence and ethical reasoning", isCorrect: true },
+              { optionKey: "D", optionText: "Operating AI systems", isCorrect: false }
             ],
-            answer: "C"
+            correctAnswer: "C"
           }
         ]
       },
       {
         section: "Questions 33-40",
-        instructions: 'Complete the summary below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.',
-        type: "fill",
-        title: "The impact of AI on employment",
-        items: [
-          { num: 33, before: "A 2013 study estimated that 47% of US jobs were at risk of being", after: "within 20 years.", answer: "automated" },
-          { num: 34, before: "McKinsey found that about 60% of occupations have at least 30% of their", after: "that could be automated.", answer: "activities" },
-          { num: 35, before: "In customer service, AI chatbots now handle millions of customer", after: "daily.", answer: "interactions" },
-          { num: 36, before: "In healthcare, machine learning can analyse medical", after: "with high accuracy.", answer: "images" },
-          { num: 37, before: "Clinical", after: "remains the domain of human doctors.", answer: "judgment" },
-          { num: 38, before: "AI-generated creative work is said to lack emotional depth and cultural", after: ".", answer: "context" },
-          { num: 39, before: "Experts recommend developing skills related to critical thinking and emotional", after: ".", answer: "intelligence" },
-          { num: 40, before: "Some policymakers have proposed a universal basic", after: "for displaced workers.", answer: "income" }
+        instruction: 'Complete the summary below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.',
+        type: "SUMMARY_COMPLETION",
+        questionText: `
+          <h4>The impact of AI on employment</h4>
+          <p>A 2013 study estimated that 47% of US jobs were at risk of being {33} within 20 years. McKinsey found that about 60% of occupations have at least 30% of their {34} that could be automated. In customer service, AI chatbots now handle millions of customer {35} daily. In healthcare, machine learning can analyse medical {36} with high accuracy. Clinical {37} remains the domain of human doctors. AI-generated creative work is said to lack emotional depth and cultural {38}. Experts recommend developing skills related to critical thinking and emotional {39}. Some policymakers have proposed a universal basic {40} for displaced workers.</p>
+        `,
+        questions: [
+          { questionNumber: 33, correctAnswer: "automated" },
+          { questionNumber: 34, correctAnswer: "activities" },
+          { questionNumber: 35, correctAnswer: "interactions" },
+          { questionNumber: 36, correctAnswer: "images" },
+          { questionNumber: 37, correctAnswer: "judgment" },
+          { questionNumber: 38, correctAnswer: "context" },
+          { questionNumber: 39, correctAnswer: "intelligence" },
+          { questionNumber: 40, correctAnswer: "income" }
         ]
       }
     ]
@@ -240,377 +262,182 @@ function renderPart(partNum) {
 
   // Part header
   document.getElementById("partHeader").innerHTML =
-    `<h2>${data.title}</h2><p>${data.instruction}</p>`;
+    "<h2>" + data.title + "</h2><p>" + data.instruction + "</p>";
 
   // Passage
   document.getElementById("passagePanel").innerHTML = data.passage;
 
   // Questions
   let html = "";
-  data.questions.forEach(section => {
-    html += `<div class="q-section">`;
-    html += `<div class="q-section-title">${section.section}</div>`;
-    html += `<div class="q-section-instructions">${section.instructions}</div>`;
+  data.questions.forEach((section) => {
+    html += '<div class="q-section">';
+    html += '<div class="q-section-title">' + section.section + '</div>';
+    html += '<div class="q-section-instructions">' + section.instruction + '</div>';
 
-    // ── TRUE / FALSE / NOT GIVEN ──
-    if (section.type === "tfng") {
-      section.items.forEach(q => {
-        const saved = answers[`q${q.num}`] || "";
-        html += `<div class="question" id="question-${q.num}">
-          <div class="question-label"><span class="q-num">${q.num}</span> ${q.text}</div>
-          <div class="options">
-            ${["TRUE", "FALSE", "NOT GIVEN"].map(opt => `
-              <label class="option-label">
-                <input type="radio" name="q${q.num}" value="${opt}" ${saved === opt ? "checked" : ""}
-                  onchange="saveAnswer(${q.num}, '${opt}')">
-                ${opt}
-              </label>
-            `).join("")}
-          </div>
-        </div>`;
-      });
-    }
-
-    // ── YES / NO / NOT GIVEN ──
-    if (section.type === "ynnng") {
-      section.items.forEach(q => {
-        const saved = answers[`q${q.num}`] || "";
-        html += `<div class="question" id="question-${q.num}">
-          <div class="question-label"><span class="q-num">${q.num}</span> ${q.text}</div>
-          <div class="options">
-            ${["YES", "NO", "NOT GIVEN"].map(opt => `
-              <label class="option-label">
-                <input type="radio" name="q${q.num}" value="${opt}" ${saved === opt ? "checked" : ""}
-                  onchange="saveAnswer(${q.num}, '${opt}')">
-                ${opt}
-              </label>
-            `).join("")}
-          </div>
-        </div>`;
-      });
-    }
-
-    // ── FILL / SENTENCE COMPLETION ──
-    if (section.type === "fill") {
-      if (section.title) {
-        html += `<div class="note-completion"><h4>${section.title}</h4>`;
-      }
-      section.items.forEach(q => {
-        const saved = answers[`q${q.num}`] || "";
-        html += `<div class="input-question" id="question-${q.num}">
-          <div class="input-row">
-            <span class="q-num">${q.num}</span>
-            ${q.before}
-            <input type="text" id="input-${q.num}" value="${saved}"
-              placeholder="..." oninput="saveAnswer(${q.num}, this.value)">
-            ${q.after}
-          </div>
-        </div>`;
-      });
-      if (section.title) html += `</div>`;
-    }
-
-    // ── NOTE COMPLETION (HTML template with {N} blanks) ──
-    if (section.type === "note") {
-      let content = section.content || "";
+    // Helper for input questions (fill-in-the-blank style)
+    const renderInlineInputs = (content) => {
       const regex = /\{(\d+)\}/g;
-      content = content.replace(regex, (_, num) => {
+      return content.replace(regex, (_, num) => {
         const saved = answers[`q${num}`] || "";
         return `<input class="inline-input" type="text" id="question-${num}" data-q="${num}"
           placeholder="${num}" value="${saved}"
           oninput="saveAnswer(${num}, this.value)" autocomplete="off">`;
       });
-      html += `<div class="note-completion">${content}</div>`;
-    }
+    };
 
-    // ── MULTIPLE CHOICE (single answer, radio) ──
-    if (section.type === "mcq") {
-      section.items.forEach(q => {
-        const saved = answers[`q${q.num}`] || "";
-        html += `<div class="question" id="question-${q.num}">
-          <div class="question-label"><span class="q-num">${q.num}</span> ${q.text}</div>
-          <div class="options">
-            ${q.options.map(opt => `
-              <label class="option-label">
-                <input type="radio" name="q${q.num}" value="${opt.label}" ${saved === opt.label ? "checked" : ""}
-                  onchange="saveAnswer(${q.num}, '${opt.label}')">
-                <strong>${opt.label}</strong>&nbsp; ${opt.text}
-              </label>
-            `).join("")}
-          </div>
-        </div>`;
-      });
-    }
+    switch (section.type) {
+      case "TRUE_FALSE_NOT_GIVEN":
+      case "YES_NO_NOT_GIVEN": {
+        const options = section.type === "TRUE_FALSE_NOT_GIVEN" ? ["TRUE", "FALSE", "NOT GIVEN"] : ["YES", "NO", "NOT GIVEN"];
+        section.questions.forEach(q => {
+          const saved = answers[`q${q.questionNumber}`] || "";
+          html += `<div class="question" id="question-${q.questionNumber}">
+            <div class="question-label"><span class="q-num">${q.questionNumber}</span> ${q.questionText}</div>
+            <div class="options">
+              ${options.map(opt => `
+                <label class="option-label">
+                  <input type="radio" name="q${q.questionNumber}" value="${opt}" ${saved === opt ? "checked" : ""}
+                    onchange="saveAnswer(${q.questionNumber}, '${opt}')">
+                  ${opt}
+                </label>
+              `).join("")}
+            </div>
+          </div>`;
+        });
+        break;
+      }
+      case "MULTIPLE_CHOICE": {
+        section.questions.forEach(q => {
+          const saved = answers[`q${q.questionNumber}`] || "";
+          html += `<div class="question" id="question-${q.questionNumber}">
+            <div class="question-label"><span class="q-num">${q.questionNumber}</span> ${q.questionText}</div>
+            <div class="options">
+              ${(q.options || []).map(opt => `
+                <label class="option-label">
+                  <input type="radio" name="q${q.questionNumber}" value="${opt.optionKey}" ${saved === opt.optionKey ? "checked" : ""}
+                    onchange="saveAnswer(${q.questionNumber}, '${opt.optionKey}')">
+                  <strong>${opt.optionKey}</strong>&nbsp; ${opt.optionText}
+                </label>
+              `).join("")}
+            </div>
+          </div>`;
+        });
+        break;
+      }
+      case "MULTIPLE_ANSWER": {
+        const qNumEnd = section.questions[section.questions.length - 1].questionNumber;
+        const qNumStart = section.questions[0].questionNumber;
+        const nums = Array.from({ length: qNumEnd - qNumStart + 1 }, (_, i) => qNumStart + i);
 
-    // ── MULTIPLE ANSWER (checkboxes) ──
-    if (section.type === "multi") {
-      if (section.prompt) {
-        html += `<div class="question" id="question-${section.nums[0]}">
-          <div class="question-label">${section.prompt}</div>
-          <div class="options">
-            ${section.items.map(opt => {
-          const isChecked = section.nums.some(n => answers[`q${n}`] === opt.label);
-          return `<label class="option-label">
-                <input type="checkbox" value="${opt.label}"
+        html += `<div class="question" id="question-${qNumStart}">
+          <div class="options">`;
+        (section.options || []).forEach(opt => {
+          const isChecked = nums.some(n => answers[`q${n}`] === opt.optionKey) ||
+            (answers[`multi_${qNumStart}`] || []).includes(opt.optionKey);
+          html += `<label class="option-label">
+                <input type="checkbox" value="${opt.optionKey}"
                   ${isChecked ? "checked" : ""}
-                  onchange="saveMulti(this, [${section.nums}])">
-                <strong>${opt.label}</strong>&nbsp; ${opt.text}
+                  onchange="saveMulti(this, [${nums.join(',')}])">
+                <strong>${opt.optionKey}</strong>&nbsp; ${opt.optionText}
               </label>`;
-        }).join("")}
-          </div>
-        </div>`;
-      }
-    }
-
-    // ── MATCHING HEADINGS (select dropdown with roman numerals) ──
-    if (section.type === "select") {
-      section.items.forEach(q => {
-        const saved = answers[`q${q.num}`] || "";
-        html += `<div class="match-row" id="question-${q.num}">
-          <span class="q-num">${q.num}</span>
-          <span class="match-text">${q.text}</span>
-          <select onchange="saveAnswer(${q.num}, this.value)">
-            <option value="">-- Select --</option>
-            ${section.headings.map((h, i) => {
-          const val = ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii", "ix", "x", "xi", "xii"][i] || String(i + 1);
-          return `<option value="${val}" ${saved === val ? "selected" : ""}>${val}. ${h}</option>`;
-        }).join("")}
-          </select>
-        </div>`;
-      });
-    }
-
-    // ── MATCHING INFORMATION (dropdown per statement with paragraph letters) ──
-    if (section.type === "matchinfo") {
-      const paras = section.paragraphs || ["A", "B", "C", "D", "E", "F", "G", "H"];
-      section.items.forEach(q => {
-        const saved = answers[`q${q.num}`] || "";
-        html += `<div class="match-row" id="question-${q.num}">
-          <span class="q-num">${q.num}</span>
-          <span class="match-text">${q.text}</span>
-          <select onchange="saveAnswer(${q.num}, this.value)">
-            <option value="">-- Select --</option>
-            ${paras.map(p => `<option value="${p}" ${saved === p ? "selected" : ""}>${p}</option>`).join("")}
-          </select>
-        </div>`;
-      });
-    }
-
-    // ── MATCHING FEATURES (dropdown per statement, options from list) ──
-    if (section.type === "matchfeat") {
-      if (section.optionsList) {
-        html += `<div class="match-options-panel"><strong>Options:</strong> ${section.optionsList.map(o =>
-          `<span class="match-option-chip"><strong>${o.label}</strong> ${o.text}</span>`).join("")}</div>`;
-      }
-      section.items.forEach(q => {
-        const saved = answers[`q${q.num}`] || "";
-        html += `<div class="match-row" id="question-${q.num}">
-          <span class="q-num">${q.num}</span>
-          <span class="match-text">${q.text}</span>
-          <select onchange="saveAnswer(${q.num}, this.value)">
-            <option value="">-- Select --</option>
-            ${(section.optionsList || []).map(o =>
-          `<option value="${o.label}" ${saved === o.label ? "selected" : ""}>${o.label}. ${o.text}</option>`).join("")}
-          </select>
-        </div>`;
-      });
-    }
-
-    // ── MATCHING SENTENCE ENDINGS (dropdown from endings list) ──
-    if (section.type === "matchend") {
-      if (section.endings) {
-        html += `<div class="match-options-panel"><strong>Endings:</strong><ul>${section.endings.map(e =>
-          `<li><strong>${e.label}</strong> ${e.text}</li>`).join("")}</ul></div>`;
-      }
-      section.items.forEach(q => {
-        const saved = answers[`q${q.num}`] || "";
-        html += `<div class="match-row" id="question-${q.num}">
-          <span class="q-num">${q.num}</span>
-          <span class="match-text">${q.text}</span>
-          <select onchange="saveAnswer(${q.num}, this.value)">
-            <option value="">-- Select --</option>
-            ${(section.endings || []).map(e =>
-          `<option value="${e.label}" ${saved === e.label ? "selected" : ""}>${e.label}</option>`).join("")}
-          </select>
-        </div>`;
-      });
-    }
-
-    // ── SUMMARY COMPLETION (paragraph with inline blanks) ──
-    if (section.type === "summary") {
-      let content = section.content || "";
-      const regex = /\{(\d+)\}/g;
-      content = content.replace(regex, (_, num) => {
-        const saved = answers[`q${num}`] || "";
-        return `<input class="inline-input" type="text" id="question-${num}" data-q="${num}"
-          placeholder="${num}" value="${saved}"
-          oninput="saveAnswer(${num}, this.value)" autocomplete="off">`;
-      });
-      html += `<div class="summary-section">${content}</div>`;
-    }
-
-    // ── SUMMARY COMPLETION DRAG & DROP (word bank + drop zones) ──
-    if (section.type === "dragdrop") {
-      html += `<div class="dragdrop-section">`;
-      // Word bank
-      if (section.wordBank) {
-        html += `<div class="word-bank"><strong>Word Bank:</strong><div class="word-bank-chips">`;
-        section.wordBank.forEach(w => {
-          html += `<span class="word-chip" draggable="true" ondragstart="dragWord(event, '${w.label}')"
-            data-label="${w.label}"><strong>${w.label}</strong> ${w.text}</span>`;
         });
         html += `</div></div>`;
+        break;
       }
-      // Drop zones (inline in content)
-      let content = section.content || "";
-      const ddRegex = /\{(\d+)\}/g;
-      content = content.replace(ddRegex, (_, num) => {
-        const saved = answers[`q${num}`] || "";
-        const savedText = saved && section.wordBank ? (section.wordBank.find(w => w.label === saved) || {}).text || saved : saved;
-        return `<span class="drop-zone ${saved ? 'filled' : ''}" id="question-${num}" data-q="${num}"
-          ondrop="dropWord(event, ${num})" ondragover="event.preventDefault()" onclick="clearDrop(${num})">
-          ${saved ? `<strong>${saved}</strong> ${savedText}` : num}</span>`;
-      });
-      html += `<div class="dragdrop-content">${content}</div>`;
-      html += `</div>`;
-    }
+      case "MATCHING_HEADINGS":
+      case "MATCHING_INFORMATION":
+      case "MATCHING_FEATURES":
+      case "MATCHING_SENTENCE_ENDINGS": {
+        const optDict = section.options || (section.headingOptions ? Object.keys(section.headingOptions).map(k => ({ optionKey: k, optionText: section.headingOptions[k] })) : []);
+        if (optDict.length && !section.options) {
+          html += `<div class="match-options-panel"><strong>Options:</strong> ${optDict.map(o =>
+            `<span class="match-option-chip"><strong>${o.optionKey}</strong> ${o.optionText || ""}</span>`).join("")}</div>`;
+        } else if (section.options) {
+          html += `<div class="match-options-panel"><strong>Options:</strong> ${section.options.map(o =>
+            `<span class="match-option-chip"><strong>${o.optionKey}</strong> ${o.optionText || ""}</span>`).join("")}</div>`;
+        }
 
-    // ── SHORT ANSWER ──
-    if (section.type === "short") {
-      section.items.forEach(q => {
-        const saved = answers[`q${q.num}`] || "";
-        html += `<div class="input-question" id="question-${q.num}">
-          <div class="input-row">
-            <span class="q-num">${q.num}</span>
-            <span class="short-q-text">${q.text}</span>
-          </div>
-          <input type="text" class="short-answer-input" id="input-${q.num}" value="${saved}"
-            placeholder="Your answer..." oninput="saveAnswer(${q.num}, this.value)">
-        </div>`;
-      });
-    }
-
-    // ── TABLE COMPLETION ──
-    if (section.type === "table") {
-      html += `<div class="table-completion" id="question-${section.items ? section.items[0].num : ''}">`;
-      if (section.tableData) {
-        html += `<table class="ielts-table"><thead><tr>`;
-        section.tableData.headers.forEach(h => { html += `<th>${h}</th>`; });
-        html += `</tr></thead><tbody>`;
-        let blankIdx = 0;
-        section.tableData.rows.forEach(row => {
-          html += `<tr>`;
-          row.forEach(cell => {
-            if (cell === "____" && section.items && section.items[blankIdx]) {
-              const q = section.items[blankIdx];
-              const saved = answers[`q${q.num}`] || "";
-              html += `<td><input class="table-input" type="text" id="question-${q.num}" value="${saved}"
-                placeholder="${q.num}" oninput="saveAnswer(${q.num}, this.value)"></td>`;
-              blankIdx++;
-            } else {
-              html += `<td>${cell}</td>`;
-            }
-          });
-          html += `</tr>`;
+        section.questions.forEach(q => {
+          const saved = answers[`q${q.questionNumber}`] || "";
+          html += `<div class="match-row" id="question-${q.questionNumber}">
+            <span class="q-num">${q.questionNumber}</span>
+            <span class="match-text">${q.questionText}</span>
+            <select onchange="saveAnswer(${q.questionNumber}, this.value)">
+              <option value="">-- Select --</option>
+              ${optDict.map(o => `<option value="${o.optionKey}" ${saved === o.optionKey ? "selected" : ""}>${o.optionKey} ${o.optionText ? '- ' + o.optionText : ''}</option>`).join("")}
+            </select>
+          </div>`;
         });
-        html += `</tbody></table>`;
+        break;
       }
-      html += `</div>`;
-    }
-
-    // ── FLOW CHART COMPLETION ──
-    if (section.type === "flowchart") {
-      let content = section.content || "";
-      const fcRegex = /\{(\d+)\}/g;
-      content = content.replace(fcRegex, (_, num) => {
-        const saved = answers[`q${num}`] || "";
-        return `<input class="inline-input" type="text" id="question-${num}" data-q="${num}"
-          placeholder="${num}" value="${saved}"
-          oninput="saveAnswer(${num}, this.value)" autocomplete="off">`;
-      });
-      html += `<div class="flowchart-section">${content}</div>`;
-    }
-
-    // ── DIAGRAM LABELLING ──
-    if (section.type === "diagram") {
-      if (section.image) {
-        html += `<div class="diagram-section"><img src="${section.image}" alt="Diagram" class="diagram-img"></div>`;
+      case "SENTENCE_COMPLETION":
+      case "NOTE_COMPLETION":
+      case "SUMMARY_COMPLETION":
+      case "FLOW_CHART_COMPLETION":
+      case "TABLE_COMPLETION": {
+        html += `<div class="completion-section">`;
+        if (section.questionText) {
+          html += renderInlineInputs(section.questionText);
+        } else {
+          section.questions.forEach(q => {
+            const saved = answers[`q${q.questionNumber}`] || "";
+            html += `<div class="input-question" id="question-${q.questionNumber}">
+              <div class="input-row">
+                <span class="q-num">${q.questionNumber}</span>
+                <span class="short-q-text">${q.questionText || ""}</span>
+                <input type="text" class="short-answer-input" id="input-${q.questionNumber}" value="${saved}"
+                  placeholder="..." oninput="saveAnswer(${q.questionNumber}, this.value)">
+              </div>
+            </div>`;
+          });
+        }
+        html += `</div>`;
+        break;
       }
-      section.items.forEach(q => {
-        const saved = answers[`q${q.num}`] || "";
-        html += `<div class="input-question" id="question-${q.num}">
-          <div class="input-row">
-            <span class="q-num">${q.num}</span>
-            <span class="short-q-text">${q.text}</span>
-          </div>
-          <input type="text" class="short-answer-input" id="input-${q.num}" value="${saved}"
-            placeholder="Your answer..." oninput="saveAnswer(${q.num}, this.value)">
-        </div>`;
-      });
-    }
-
-    // ── PLAN / MAP LABELLING (dropdown from options) ──
-    if (section.type === "planmap") {
-      if (section.image) {
-        html += `<div class="diagram-section"><img src="${section.image}" alt="Map/Plan" class="diagram-img"></div>`;
+      case "SUMMARY_COMPLETION_DRAG_DROP": {
+        html += `<div class="dragdrop-section">`;
+        if (section.options) {
+          html += `<div class="word-bank"><strong>Word Bank:</strong><div class="word-bank-chips">`;
+          section.options.forEach(o => {
+            html += `<div class="draggable-chip" draggable="true" ondragstart="drag(event)" id="drag-${o.optionKey}">${o.optionKey}: ${o.optionText || ""}</div>`;
+          });
+          html += `</div></div>`;
+        }
+        html += `<div class="summary-drop-area">${renderInlineInputs(section.questionText)}</div>`;
+        html += `</div>`;
+        break;
       }
-      if (section.optionsList) {
-        html += `<div class="match-options-panel"><strong>Options:</strong> ${section.optionsList.map(o =>
-          `<span class="match-option-chip"><strong>${o.label}</strong> ${o.text}</span>`).join("")}</div>`;
+      case "DIAGRAM_LABELLING":
+      case "PLAN_MAP_LABELLING":
+      case "SHORT_ANSWER": {
+        if (section.image) {
+          html += `<div class="diagram-section"><img src="${section.image}" alt="Diagram" class="diagram-img"></div>`;
+        }
+        section.questions.forEach(q => {
+          const saved = answers[`q${q.questionNumber}`] || "";
+          html += `<div class="input-question" id="question-${q.questionNumber}">
+            <div class="input-row">
+              <span class="q-num">${q.questionNumber}</span>
+              <span class="short-q-text">${q.questionText || ""}</span>
+            </div>
+            <input type="text" class="short-answer-input" id="input-${q.questionNumber}" value="${saved}"
+              placeholder="Your answer..." oninput="saveAnswer(${q.questionNumber}, this.value)">
+          </div>`;
+        });
+        break;
       }
-      section.items.forEach(q => {
-        const saved = answers[`q${q.num}`] || "";
-        html += `<div class="match-row" id="question-${q.num}">
-          <span class="q-num">${q.num}</span>
-          <span class="match-text">${q.text}</span>
-          <select onchange="saveAnswer(${q.num}, this.value)">
-            <option value="">-- Select --</option>
-            ${(section.optionsList || []).map(o =>
-          `<option value="${o.label}" ${saved === o.label ? "selected" : ""}>${o.label}. ${o.text}</option>`).join("")}
-          </select>
-        </div>`;
-      });
     }
-
     html += `</div>`;
   });
   document.getElementById("questionsPanel").innerHTML = html;
 
-  // Update bottom bar
-  updatePartTabs();
-  renderQNumbers();
-  updateAnswerCount();
-
-  // Scroll to top
-  document.getElementById("passagePanel").scrollTop = 0;
-  document.getElementById("questionsPanel").scrollTop = 0;
+  // Highlight active
+  document.querySelectorAll(".part-nav button").forEach(b => b.classList.remove("active"));
+  document.getElementById(`btnPart${partNum}`).classList.add("active");
+  updateReviewCounts();
 }
 
-function updatePartTabs() {
-  document.querySelectorAll(".part-tab").forEach(tab => {
-    tab.classList.toggle("active", parseInt(tab.dataset.part) === currentPart);
-  });
-}
 
-function renderQNumbers() {
-  const [start, end] = PART_RANGES[currentPart];
-  let html = "";
-  for (let i = start; i <= end; i++) {
-    const answered = answers[`q${i}`] ? "answered" : "";
-    html += `<button class="q-num-btn ${answered}" data-q="${i}" onclick="scrollToQ(${i})">${i}</button>`;
-  }
-  document.getElementById("qNumbers").innerHTML = html;
-}
-
-function updateAnswerCount() {
-  const [start, end] = PART_RANGES[currentPart];
-  let count = 0;
-  for (let i = start; i <= end; i++) {
-    if (answers[`q${i}`]) count++;
-  }
-  const total = end - start + 1;
-  document.getElementById("answerCount").innerHTML = `Part ${currentPart} &nbsp; ${count}/${total}`;
-}
 
 // ============================
 // ANSWERS
@@ -1034,69 +861,90 @@ function closeConfirm() {
 }
 
 function submitTest() {
-  closeConfirm();
-  // Stop timer
-  clearInterval(timerInterval);
-  timerRunning = false;
-  document.getElementById("btnStart").textContent = "Done";
+  stopTimer();
 
-  // Calculate score
   let totalCorrect = 0;
-  const partScores = { 1: 0, 2: 0, 3: 0 };
-  const reviewItems = [];
+  let partScores = { 1: 0, 2: 0, 3: 0 };
+  let reviewItems = [];
 
   for (let p = 1; p <= 3; p++) {
-    TEST_DATA[p].questions.forEach(section => {
-      section.items.forEach(q => {
-        const userAns = (answers[`q${q.num}`] || "").toLowerCase().trim();
-        const correct = q.answer.toLowerCase().trim();
-        const isCorrect = userAns === correct;
+    const data = TEST_DATA[p];
+    if (!data) continue;
+
+    data.questions.forEach(section => {
+      let multiAnswers = [];
+      if (section.type === "MULTIPLE_ANSWER") {
+        section.questions.forEach(q => {
+          multiAnswers.push(String(q.correctAnswer).trim().toUpperCase());
+        });
+      }
+
+      section.questions.forEach(q => {
+        const num = q.questionNumber;
+        const correct = String(q.correctAnswer).trim().toUpperCase();
+        let user = String(answers[`q${num}`] || "").trim().toUpperCase();
+        let isCorrect = false;
+
+        if (section.type === "MULTIPLE_ANSWER") {
+          if (user && multiAnswers.includes(user)) {
+            isCorrect = true;
+            multiAnswers.splice(multiAnswers.indexOf(user), 1);
+          }
+        } else {
+          isCorrect = (user === correct) || (user === String(q.correctAnswer).trim());
+        }
+
         if (isCorrect) {
           totalCorrect++;
           partScores[p]++;
         }
+
         reviewItems.push({
-          num: q.num,
-          correct: q.answer,
-          user: answers[`q${q.num}`] || "—",
-          isCorrect
+          num: num,
+          user: user || "(empty)",
+          correct: String(q.correctAnswer),
+          isCorrect: isCorrect
         });
       });
     });
   }
 
-  // Band score estimation (rough IELTS scale)
-  const bandMap = [
-    [40, 9.0], [39, 8.5], [37, 8.0], [35, 7.5], [33, 7.0],
-    [30, 6.5], [27, 6.0], [23, 5.5], [19, 5.0], [15, 4.5],
-    [13, 4.0], [10, 3.5], [6, 3.0], [0, 2.0]
-  ];
-  let band = 2.0;
-  for (const [threshold, score] of bandMap) {
-    if (totalCorrect >= threshold) { band = score; break; }
-  }
+  let band = 0;
+  if (totalCorrect >= 39) band = 9.0;
+  else if (totalCorrect >= 37) band = 8.5;
+  else if (totalCorrect >= 35) band = 8.0;
+  else if (totalCorrect >= 33) band = 7.5;
+  else if (totalCorrect >= 30) band = 7.0;
+  else if (totalCorrect >= 27) band = 6.5;
+  else if (totalCorrect >= 23) band = 6.0;
+  else if (totalCorrect >= 19) band = 5.5;
+  else if (totalCorrect >= 15) band = 5.0;
+  else if (totalCorrect >= 13) band = 4.5;
+  else if (totalCorrect >= 10) band = 4.0;
+  else if (totalCorrect >= 8) band = 3.5;
+  else if (totalCorrect >= 6) band = 3.0;
+  else if (totalCorrect >= 4) band = 2.5;
+  else if (totalCorrect >= 2) band = 2.0;
 
-  // Populate modal
   document.getElementById("scoreNum").textContent = totalCorrect;
   document.getElementById("bandScore").textContent = band.toFixed(1);
 
-  // Score ring animation
   const circumference = 326.73;
   const offset = circumference - (totalCorrect / 40) * circumference;
   const circle = document.getElementById("scoreCircle");
-  circle.style.strokeDashoffset = circumference; // reset
-  setTimeout(() => { circle.style.strokeDashoffset = offset; }, 50);
+  circle.style.strokeDashoffset = offset;
 
-  // Part breakdown
   let breakdownHtml = "";
   for (let p = 1; p <= 3; p++) {
-    const [s, e] = PART_RANGES[p];
-    const total = e - s + 1;
-    breakdownHtml += `<div class="row"><span class="label">Part ${p}</span><span class="value">${partScores[p]} / ${total}</span></div>`;
+    const range = PART_RANGES[p];
+    if (range) {
+      const [s, e] = range;
+      const total = e - s + 1;
+      breakdownHtml += `<div class="row"><span class="label">Part ${p}</span><span class="value">${partScores[p]} / ${total}</span></div>`;
+    }
   }
   document.getElementById("partBreakdown").innerHTML = breakdownHtml;
 
-  // Review list
   let reviewHtml = "";
   reviewItems.forEach(r => {
     const cls = r.isCorrect ? "ri-correct" : "ri-wrong";
@@ -1109,7 +957,6 @@ function submitTest() {
   });
   document.getElementById("reviewList").innerHTML = reviewHtml;
 
-  // Show modal
   document.getElementById("resultsModal").classList.add("show");
 }
 
@@ -1125,4 +972,28 @@ function retakeTest() {
   document.getElementById("timer").classList.remove("warning");
   document.getElementById("btnStart").textContent = "Start";
   renderPart(1);
+}
+
+// ============================
+// DRAG AND DROP HANDLERS
+// ============================
+function allowDrop(ev) {
+  ev.preventDefault();
+}
+
+function drag(ev) {
+  // Extract just the optionKey or text to transfer
+  const text = ev.target.innerText.split(':')[0].trim();
+  ev.dataTransfer.setData("text", text);
+}
+
+function drop(ev) {
+  ev.preventDefault();
+  var data = ev.dataTransfer.getData("text");
+  if (ev.target.tagName === "INPUT") {
+    ev.target.value = data;
+    // trigger oninput manually
+    const event = new Event('input', { bubbles: true });
+    ev.target.dispatchEvent(event);
+  }
 }

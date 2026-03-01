@@ -18,14 +18,14 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ extended: true }));
 
 // Serve static files (builder assets + existing tests)
-app.use(express.static(__dirname, {
+app.use(express.static(path.join(__dirname, '../public'), {
     // Only serve specific known asset types from root
     setHeaders: (res, filePath) => {
         if (filePath.endsWith('.css')) res.setHeader('Content-Type', 'text/css');
         if (filePath.endsWith('.js')) res.setHeader('Content-Type', 'application/javascript');
     }
 }));
-app.use('/tests', express.static(__dirname));
+app.use('/tests', express.static(path.join(__dirname, '../public')));
 
 // ============================
 // FILE UPLOAD CONFIG
@@ -50,7 +50,7 @@ const upload = multer({
 
 // Serve builder UI
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'builder.html'));
+    res.sendFile(path.join(__dirname, '../public/builder.html'));
 });
 
 // Upload & process file

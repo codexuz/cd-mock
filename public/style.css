@@ -1357,6 +1357,162 @@ body {
   background: #aaa
 }
 
+/* ===== NEW QUESTION TYPES (16 TYPES UNIFICATION) ===== */
+
+/* Matching Features / Plan Map Labels / Word Banks */
+.match-options-panel {
+  background: var(--surface);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  margin-bottom: 16px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 13.5px;
+}
+
+.match-option-chip {
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 4px 10px;
+  font-size: 13px;
+  color: var(--text);
+}
+
+.match-option-chip strong {
+  color: var(--primary);
+  margin-right: 4px;
+}
+
+/* diagram & plan map */
+.diagram-section {
+  text-align: center;
+  margin: 16px 0 24px 0;
+  padding: 12px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.diagram-img {
+  max-width: 100%;
+  height: auto;
+  border-radius: var(--radius-sm);
+}
+
+/* Drag and Drop Word Bank */
+.word-bank {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  padding: 16px;
+  border-radius: var(--radius);
+  margin-bottom: 20px;
+}
+
+.word-bank strong {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--text);
+  font-size: 14px;
+}
+
+.word-bank-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.draggable-chip {
+  background: var(--primary-light);
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: var(--radius);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: grab;
+  user-select: none;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.draggable-chip:active {
+  cursor: grabbing;
+}
+
+/* Completion sections (Summary, Flowchart, Note) */
+.completion-section {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.completion-section h4 {
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 16px;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.completion-section ul {
+  padding-left: 20px;
+}
+
+.completion-section li {
+  margin-bottom: 12px;
+}
+
+.inline-input {
+  width: 110px;
+  padding: 2px 8px;
+  margin: 0 4px;
+  border: none;
+  border-bottom: 2px solid var(--border);
+  font-family: inherit;
+  font-size: 14px;
+  background: #fafafa;
+  border-radius: 4px 4px 0 0;
+  transition: var(--transition);
+  text-align: center;
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.inline-input:focus {
+  outline: none;
+  border-bottom-color: var(--primary);
+  background: #fff;
+}
+
+/* Short answer input */
+.short-answer-input {
+  flex: 1;
+  min-width: 150px;
+  padding: 6px 12px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 13.5px;
+  background: var(--surface);
+  transition: var(--transition);
+}
+
+.short-answer-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.short-q-text {
+  font-weight: 500;
+}
+
+
 /* ===== RESPONSIVE ===== */
 @media(max-width:800px) {
   .main-split {

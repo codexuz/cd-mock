@@ -2,10 +2,10 @@
   "name": "ielts-cd-test-builder",
   "version": "1.0.0",
   "description": "IELTS Computer-Delivered Test Builder — upload tests, generate interactive HTML",
-  "main": "server.js",
+  "main": "src/server.js",
   "scripts": {
-    "start": "node server.js",
-    "dev": "node server.js"
+    "start": "node src/server.js",
+    "dev": "node src/server.js"
   },
   "dependencies": {
     "express": "^4.21.0",

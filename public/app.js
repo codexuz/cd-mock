@@ -867,6 +867,7 @@ function closeConfirm() {
 }
 
 function submitTest() {
+  closeConfirm();
   stopTimer();
 
   let totalCorrect = 0;

@@ -307,35 +307,58 @@ const PART_RANGES = { 1: [1, 10], 2: [11, 20], 3: [21, 30], 4: [31, 40] };
 // INIT
 // ============================
 document.addEventListener("DOMContentLoaded", () => {
-    renderPart(1);
+  renderPart(1);
 });
 
 // ============================
 // AUDIO OVERLAY
 // ============================
+let audioElement = null;
+
 function startListening() {
-    document.getElementById("audioOverlay").classList.add("hidden");
-    audioStarted = true;
-    document.getElementById("audioProgressBar").classList.add("show");
-    // Simulate audio playback with a timer
+  document.getElementById("audioOverlay").classList.add("hidden");
+  audioStarted = true;
+  document.getElementById("audioProgressBar").classList.add("show");
+
+  // Attempt real audio playback
+  const audioSrc = "audio.mp3"; // Place your audio file next to the HTML named 'audio.mp3'
+  audioElement = new Audio(audioSrc);
+
+  audioElement.addEventListener("timeupdate", () => {
+    if (!isNaN(audioElement.duration)) {
+      const pct = (audioElement.currentTime / audioElement.duration) * 100;
+      document.getElementById("audioFill").style.width = pct + "%";
+      document.getElementById("audioCurrentTime").textContent = formatTime(Math.floor(audioElement.currentTime));
+      audioElapsed = Math.floor(audioElement.currentTime);
+    }
+  });
+
+  audioElement.addEventListener("loadedmetadata", () => {
+    document.getElementById("audioDuration").textContent = formatTime(Math.floor(audioElement.duration));
+  });
+
+  audioElement.play().catch(e => {
+    console.warn("Real audio playback failed, falling back to simulated timer:", e);
+    // Simulate audio playback with a timer if file doesn't exist
     audioTimer = setInterval(tickAudio, 1000);
+  });
 }
 
 function tickAudio() {
-    audioElapsed++;
-    if (audioElapsed >= AUDIO_DURATION) {
-        clearInterval(audioTimer);
-    }
-    const pct = (audioElapsed / AUDIO_DURATION) * 100;
-    document.getElementById("audioFill").style.width = pct + "%";
-    document.getElementById("audioCurrentTime").textContent = formatTime(audioElapsed);
-    document.getElementById("audioDuration").textContent = formatTime(AUDIO_DURATION);
+  audioElapsed++;
+  if (audioElapsed >= AUDIO_DURATION) {
+    clearInterval(audioTimer);
+  }
+  const pct = (audioElapsed / AUDIO_DURATION) * 100;
+  document.getElementById("audioFill").style.width = pct + "%";
+  document.getElementById("audioCurrentTime").textContent = formatTime(audioElapsed);
+  document.getElementById("audioDuration").textContent = formatTime(AUDIO_DURATION);
 }
 
 function formatTime(sec) {
-    const m = Math.floor(sec / 60);
-    const s = sec % 60;
-    return `${m}:${String(s).padStart(2, "0")}`;
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${m}:${String(s).padStart(2, "0")}`;
 }
 
 // ============================
@@ -409,13 +432,13 @@ function renderPart(partNum) {
       case "MULTIPLE_ANSWER": {
         const qNumEnd = section.questions[section.questions.length - 1].questionNumber;
         const qNumStart = section.questions[0].questionNumber;
-        const nums = Array.from({length: qNumEnd - qNumStart + 1}, (_, i) => qNumStart + i);
-        
+        const nums = Array.from({ length: qNumEnd - qNumStart + 1 }, (_, i) => qNumStart + i);
+
         html += `<div class="question" id="question-${qNumStart}">
           <div class="options">`;
         (section.options || []).forEach(opt => {
-          const isChecked = nums.some(n => answers[`q${n}`] === opt.optionKey) || 
-                            (answers[`multi_${qNumStart}`] || []).includes(opt.optionKey);
+          const isChecked = nums.some(n => answers[`q${n}`] === opt.optionKey) ||
+            (answers[`multi_${qNumStart}`] || []).includes(opt.optionKey);
           html += `<label class="option-label">
                 <input type="checkbox" value="${opt.optionKey}"
                   ${isChecked ? "checked" : ""}
@@ -430,15 +453,15 @@ function renderPart(partNum) {
       case "MATCHING_INFORMATION":
       case "MATCHING_FEATURES":
       case "MATCHING_SENTENCE_ENDINGS": {
-        const optDict = section.options || (section.headingOptions ? Object.keys(section.headingOptions).map(k => ({optionKey: k, optionText: section.headingOptions[k]})) : []);
+        const optDict = section.options || (section.headingOptions ? Object.keys(section.headingOptions).map(k => ({ optionKey: k, optionText: section.headingOptions[k] })) : []);
         if (optDict.length && !section.options) {
-           html += `<div class="match-options-panel"><strong>Options:</strong> ${optDict.map(o =>
-             `<span class="match-option-chip"><strong>${o.optionKey}</strong> ${o.optionText || ""}</span>`).join("")}</div>`;
+          html += `<div class="match-options-panel"><strong>Options:</strong> ${optDict.map(o =>
+            `<span class="match-option-chip"><strong>${o.optionKey}</strong> ${o.optionText || ""}</span>`).join("")}</div>`;
         } else if (section.options) {
-             html += `<div class="match-options-panel"><strong>Options:</strong> ${section.options.map(o =>
-               `<span class="match-option-chip"><strong>${o.optionKey}</strong> ${o.optionText || ""}</span>`).join("")}</div>`;
+          html += `<div class="match-options-panel"><strong>Options:</strong> ${section.options.map(o =>
+            `<span class="match-option-chip"><strong>${o.optionKey}</strong> ${o.optionText || ""}</span>`).join("")}</div>`;
         }
-        
+
         section.questions.forEach(q => {
           const saved = answers[`q${q.questionNumber}`] || "";
           html += `<div class="match-row" id="question-${q.questionNumber}">
@@ -512,7 +535,7 @@ function renderPart(partNum) {
     html += `</div>`;
   });
   document.getElementById("questionsPanel").innerHTML = html;
-  
+
   updatePartTabs();
   renderQNumbers();
   updateAnswerCount();
@@ -526,153 +549,156 @@ function renderPart(partNum) {
 // ANSWERS
 // ============================
 function saveAnswer(num, value) {
-    if (value && value.trim()) {
-        answers[`q${num}`] = value.trim();
-    } else {
-        delete answers[`q${num}`];
-    }
-    renderQNumbers();
-    updateAnswerCount();
+  if (value && value.trim()) {
+    answers[`q${num}`] = value.trim();
+  } else {
+    delete answers[`q${num}`];
+  }
+  renderQNumbers();
+  updateAnswerCount();
 }
 
 function saveMulti(checkbox, nums) {
-    // Gather all checked values
-    const parent = checkbox.closest(".l-mcq-options");
-    const checked = Array.from(parent.querySelectorAll("input:checked")).map(c => c.value);
-    // Assign to nums in order
-    nums.forEach((n, i) => {
-        if (checked[i]) {
-            answers[`q${n}`] = checked[i];
-        } else {
-            delete answers[`q${n}`];
-        }
-    });
-    renderQNumbers();
-    updateAnswerCount();
+  // Gather all checked values
+  const parent = checkbox.closest(".l-mcq-options");
+  const checked = Array.from(parent.querySelectorAll("input:checked")).map(c => c.value);
+  // Assign to nums in order
+  nums.forEach((n, i) => {
+    if (checked[i]) {
+      answers[`q${n}`] = checked[i];
+    } else {
+      delete answers[`q${n}`];
+    }
+  });
+  renderQNumbers();
+  updateAnswerCount();
 }
 
 // ============================
 // NAV
 // ============================
 function switchPart(partNum) {
-    if (partNum === currentPart) return;
-    renderPart(partNum);
+  if (partNum === currentPart) return;
+  renderPart(partNum);
 }
 
 function navPrev() {
-    if (currentPart > 1) switchPart(currentPart - 1);
+  if (currentPart > 1) switchPart(currentPart - 1);
 }
 function navNext() {
-    if (currentPart < 4) switchPart(currentPart + 1);
+  if (currentPart < 4) switchPart(currentPart + 1);
 }
 
 function scrollToQ(num) {
-    const el = document.getElementById(`question-${num}`);
-    if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "center" });
-        el.style.boxShadow = "0 0 0 2px rgba(211,84,0,.3)";
-        setTimeout(() => { el.style.boxShadow = ""; }, 1500);
-    }
+  const el = document.getElementById(`question-${num}`);
+  if (el) {
+    el.scrollIntoView({ behavior: "smooth", block: "center" });
+    el.style.boxShadow = "0 0 0 2px rgba(211,84,0,.3)";
+    setTimeout(() => { el.style.boxShadow = ""; }, 1500);
+  }
 }
 
 function updatePartTabs() {
-    document.querySelectorAll(".part-tab").forEach(tab => {
-        tab.classList.toggle("active", parseInt(tab.dataset.part) === currentPart);
-    });
+  document.querySelectorAll(".part-tab").forEach(tab => {
+    tab.classList.toggle("active", parseInt(tab.dataset.part) === currentPart);
+  });
 }
 
 function renderQNumbers() {
-    const [start, end] = PART_RANGES[currentPart];
-    let html = "";
-    for (let i = start; i <= end; i++) {
-        const answered = answers[`q${i}`] ? "answered" : "";
-        html += `<button class="q-num-btn ${answered}" data-q="${i}" onclick="scrollToQ(${i})">${i}</button>`;
-    }
-    document.getElementById("qNumbers").innerHTML = html;
+  const [start, end] = PART_RANGES[currentPart];
+  let html = "";
+  for (let i = start; i <= end; i++) {
+    const answered = answers[`q${i}`] ? "answered" : "";
+    html += `<button class="q-num-btn ${answered}" data-q="${i}" onclick="scrollToQ(${i})">${i}</button>`;
+  }
+  document.getElementById("qNumbers").innerHTML = html;
 }
 
 function updateAnswerCount() {
-    const [start, end] = PART_RANGES[currentPart];
-    let count = 0;
-    for (let i = start; i <= end; i++) {
-        if (answers[`q${i}`]) count++;
-    }
-    const total = end - start + 1;
-    document.getElementById("answerCount").innerHTML = `Part ${currentPart} &nbsp; ${count}/${total}`;
+  const [start, end] = PART_RANGES[currentPart];
+  let count = 0;
+  for (let i = start; i <= end; i++) {
+    if (answers[`q${i}`]) count++;
+  }
+  const total = end - start + 1;
+  document.getElementById("answerCount").innerHTML = `Part ${currentPart} &nbsp; ${count}/${total}`;
 }
 
 // ============================
 // UTILITIES
 // ============================
 function toggleFullscreen() {
-    if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen();
-    } else {
-        document.exitFullscreen();
-    }
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
 }
 
 function toggleNotes() {
-    document.getElementById("notesPanel").classList.toggle("open");
+  document.getElementById("notesPanel").classList.toggle("open");
 }
 
 // ============================
 // SUBMIT
 // ============================
 function confirmSubmit() {
-    let answered = 0;
-    for (let i = 1; i <= 40; i++) {
-        if (answers[`q${i}`]) answered++;
-    }
-    document.getElementById("confirmMsg").innerHTML =
-        `You have answered <strong>${answered}</strong> out of <strong>40</strong> questions. Are you sure you want to submit?`;
-    document.getElementById("confirmOverlay").classList.add("show");
+  let answered = 0;
+  for (let i = 1; i <= 40; i++) {
+    if (answers[`q${i}`]) answered++;
+  }
+  document.getElementById("confirmMsg").innerHTML =
+    `You have answered <strong>${answered}</strong> out of <strong>40</strong> questions. Are you sure you want to submit?`;
+  document.getElementById("confirmOverlay").classList.add("show");
 }
 
 function closeConfirm() {
-    document.getElementById("confirmOverlay").classList.remove("show");
+  document.getElementById("confirmOverlay").classList.remove("show");
 }
 
 function submitTest() {
   closeConfirm();
   clearInterval(audioTimer);
-  
+  if (audioElement) {
+    audioElement.pause();
+  }
+
   let totalCorrect = 0;
   let partScores = { 1: 0, 2: 0, 3: 0, 4: 0 };
   let reviewItems = [];
-  
+
   for (let p = 1; p <= 4; p++) {
     const data = LISTEN_DATA[p];
     if (!data) continue;
-    
+
     data.questions.forEach(section => {
       let multiAnswers = [];
       if (section.type === "MULTIPLE_ANSWER") {
-         section.questions.forEach(q => {
-           multiAnswers.push(String(q.correctAnswer).trim().toUpperCase());
-         });
+        section.questions.forEach(q => {
+          multiAnswers.push(String(q.correctAnswer).trim().toUpperCase());
+        });
       }
-      
+
       section.questions.forEach(q => {
         const num = q.questionNumber;
         const correct = String(q.correctAnswer).trim().toUpperCase();
         let user = String(answers[`q${num}`] || "").trim().toUpperCase();
         let isCorrect = false;
-        
+
         if (section.type === "MULTIPLE_ANSWER") {
-           if (user && multiAnswers.includes(user)) {
-             isCorrect = true;
-             multiAnswers.splice(multiAnswers.indexOf(user), 1);
-           }
+          if (user && multiAnswers.includes(user)) {
+            isCorrect = true;
+            multiAnswers.splice(multiAnswers.indexOf(user), 1);
+          }
         } else {
-           isCorrect = (user === correct) || (user === String(q.correctAnswer).trim());
+          isCorrect = (user === correct) || (user === String(q.correctAnswer).trim());
         }
-        
+
         if (isCorrect) {
           totalCorrect++;
           partScores[p]++;
         }
-        
+
         reviewItems.push({
           num: num,
           user: user || "(empty)",
@@ -691,7 +717,7 @@ function submitTest() {
   ];
   let band = 2.0;
   for (const [thr, sc] of bandMap) {
-      if (totalCorrect >= thr) { band = sc; break; }
+    if (totalCorrect >= thr) { band = sc; break; }
   }
 
   document.getElementById("scoreNum").textContent = totalCorrect;
@@ -730,17 +756,22 @@ function submitTest() {
 }
 
 function closeResults() {
-    document.getElementById("resultsModal").classList.remove("show");
+  document.getElementById("resultsModal").classList.remove("show");
 }
 
 function retakeTest() {
-    closeResults();
-    answers = {};
-    audioElapsed = 0;
-    audioStarted = false;
-    document.getElementById("audioFill").style.width = "0%";
-    document.getElementById("audioCurrentTime").textContent = "0:00";
-    document.getElementById("audioProgressBar").classList.remove("show");
-    document.getElementById("audioOverlay").classList.remove("hidden");
-    renderPart(1);
+  closeResults();
+  answers = {};
+  audioElapsed = 0;
+  audioStarted = false;
+  clearInterval(audioTimer);
+  if (audioElement) {
+    audioElement.pause();
+    audioElement.currentTime = 0;
+  }
+  document.getElementById("audioFill").style.width = "0%";
+  document.getElementById("audioCurrentTime").textContent = "0:00";
+  document.getElementById("audioProgressBar").classList.remove("show");
+  document.getElementById("audioOverlay").classList.remove("hidden");
+  renderPart(1);
 }

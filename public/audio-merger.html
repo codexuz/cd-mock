@@ -13,67 +13,69 @@
     <style>
         /* ===== AUDIO MERGER SPECIFIC ===== */
         .merger-card {
-            background: rgba(255, 255, 255, 0.85);
+            background: var(--bg-card);
             backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.3);
-            border-radius: 20px;
+            border: 1px solid var(--bg-card-border);
+            border-radius: var(--radius);
             padding: 36px 40px;
             max-width: 800px;
             width: 100%;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
+            box-shadow: var(--shadow-glow);
         }
 
         .merger-title {
             font-size: 22px;
             font-weight: 800;
-            color: #1a1a2e;
+            color: var(--text-bright);
             margin-bottom: 4px;
         }
 
         .merger-subtitle {
             font-size: 14px;
-            color: #6b7280;
+            color: var(--text-dim);
             margin-bottom: 28px;
         }
 
         /* Drop zone */
         .audio-dropzone {
-            border: 2px dashed #d1d5db;
-            border-radius: 16px;
+            border: 2px dashed rgba(99, 102, 241, 0.2);
+            border-radius: var(--radius-sm);
             padding: 32px;
             text-align: center;
             cursor: pointer;
             transition: all 0.25s ease;
             margin-bottom: 24px;
-            background: rgba(249, 250, 251, 0.6);
+            background: rgba(99, 102, 241, 0.03);
         }
 
         .audio-dropzone:hover,
         .audio-dropzone.dragover {
-            border-color: #6366f1;
-            background: rgba(99, 102, 241, 0.04);
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.06);
         }
 
         .audio-dropzone .drop-icon {
             margin-bottom: 12px;
-            color: #9ca3af;
+            color: var(--primary-light);
+            opacity: 0.6;
         }
 
         .audio-dropzone .drop-text strong {
             display: block;
             font-size: 15px;
-            color: #374151;
+            color: var(--text);
             margin-bottom: 4px;
         }
 
         .audio-dropzone .drop-text span {
             font-size: 13px;
-            color: #9ca3af;
+            color: var(--text-dim);
         }
 
         .audio-dropzone .drop-formats {
             font-size: 12px;
-            color: #9ca3af;
+            color: var(--text-dim);
+            opacity: 0.7;
             margin-top: 8px;
         }
 
@@ -90,7 +92,7 @@
             align-items: center;
             justify-content: center;
             padding: 40px 0;
-            color: #9ca3af;
+            color: var(--text-dim);
             font-size: 14px;
         }
 
@@ -99,9 +101,9 @@
             align-items: center;
             gap: 12px;
             padding: 12px 16px;
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
+            background: var(--bg-input);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            border-radius: var(--radius-sm);
             transition: all 0.2s ease;
             cursor: grab;
         }
@@ -112,18 +114,18 @@
 
         .track-item.dragging {
             opacity: 0.5;
-            border-color: #6366f1;
+            border-color: var(--primary);
         }
 
         .track-item.drag-over {
-            border-color: #6366f1;
-            background: rgba(99, 102, 241, 0.05);
+            border-color: var(--primary);
+            background: rgba(99, 102, 241, 0.08);
         }
 
         .track-num {
             width: 28px;
             height: 28px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             color: white;
             border-radius: 50%;
             display: flex;
@@ -142,7 +144,7 @@
         .track-name {
             font-size: 14px;
             font-weight: 600;
-            color: #1f2937;
+            color: var(--text);
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -150,7 +152,7 @@
 
         .track-meta {
             font-size: 12px;
-            color: #9ca3af;
+            color: var(--text-dim);
             display: flex;
             gap: 8px;
         }
@@ -158,7 +160,7 @@
         .track-waveform {
             flex: 1;
             height: 32px;
-            background: #eef2ff;
+            background: rgba(99, 102, 241, 0.08);
             border-radius: 6px;
             overflow: hidden;
             display: flex;
@@ -169,7 +171,7 @@
         .waveform-bar {
             width: 2px;
             margin: 0 1px;
-            background: #6366f1;
+            background: var(--primary-light);
             border-radius: 1px;
             transition: height 0.2s ease;
         }
@@ -179,7 +181,7 @@
             height: 32px;
             border-radius: 50%;
             border: none;
-            background: #6366f1;
+            background: var(--primary);
             color: white;
             cursor: pointer;
             display: flex;
@@ -190,7 +192,7 @@
         }
 
         .track-play-btn:hover {
-            background: #4f46e5;
+            background: var(--primary-dark);
             transform: scale(1.1);
         }
 
@@ -200,7 +202,7 @@
             border-radius: 50%;
             border: none;
             background: transparent;
-            color: #9ca3af;
+            color: var(--text-dim);
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -211,8 +213,8 @@
         }
 
         .track-remove:hover {
-            background: #fee2e2;
-            color: #ef4444;
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--error);
         }
 
         /* Silence gap config */
@@ -221,37 +223,40 @@
             align-items: center;
             gap: 12px;
             padding: 16px 20px;
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
+            background: var(--bg-input);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            border-radius: var(--radius-sm);
             margin-bottom: 24px;
         }
 
         .gap-config label {
             font-size: 14px;
             font-weight: 600;
-            color: #374151;
+            color: var(--text);
             white-space: nowrap;
         }
 
         .gap-config input[type="number"] {
             width: 80px;
             padding: 6px 10px;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
+            border: 1px solid rgba(99, 102, 241, 0.15);
+            border-radius: var(--radius-xs);
             font-size: 14px;
             font-family: inherit;
             text-align: center;
+            background: var(--bg);
+            color: var(--text);
         }
 
         .gap-config input[type="number"]:focus {
             outline: none;
-            border-color: #6366f1;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
         }
 
         .gap-config .gap-hint {
             font-size: 12px;
-            color: #9ca3af;
+            color: var(--text-dim);
         }
 
         /* Actions */
@@ -266,10 +271,10 @@
             align-items: center;
             gap: 8px;
             padding: 12px 28px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            background: linear-gradient(135deg, var(--primary), var(--accent));
             color: white;
             border: none;
-            border-radius: 12px;
+            border-radius: var(--radius-sm);
             font-size: 15px;
             font-weight: 700;
             cursor: pointer;
@@ -280,7 +285,7 @@
 
         .btn-merge:hover:not(:disabled) {
             transform: translateY(-1px);
-            box-shadow: 0 6px 24px rgba(99, 102, 241, 0.4);
+            box-shadow: 0 8px 30px -8px rgba(99, 102, 241, 0.5);
         }
 
         .btn-merge:disabled {
@@ -290,10 +295,10 @@
 
         .btn-clear {
             padding: 12px 24px;
-            background: #f3f4f6;
-            color: #6b7280;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
+            background: var(--bg-input);
+            color: var(--text-dim);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            border-radius: var(--radius-sm);
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
@@ -302,19 +307,20 @@
         }
 
         .btn-clear:hover {
-            background: #e5e7eb;
-            color: #374151;
+            background: rgba(99, 102, 241, 0.08);
+            color: var(--text);
+            border-color: rgba(99, 102, 241, 0.2);
         }
 
         .total-duration {
             margin-left: auto;
             font-size: 14px;
-            color: #6b7280;
+            color: var(--text-dim);
             font-weight: 600;
         }
 
         .total-duration strong {
-            color: #1f2937;
+            color: var(--text-bright);
         }
 
         /* Progress */
@@ -333,14 +339,14 @@
         .merge-progress .progress-bar {
             width: 100%;
             height: 8px;
-            background: #e5e7eb;
+            background: var(--bg-input);
             border-radius: 4px;
             overflow: hidden;
         }
 
         .merge-progress .progress-fill {
             height: 100%;
-            background: linear-gradient(90deg, #6366f1, #8b5cf6);
+            background: linear-gradient(90deg, var(--primary), var(--accent));
             border-radius: 4px;
             transition: width 0.3s ease;
             width: 0%;
@@ -348,7 +354,7 @@
 
         .merge-progress .progress-text {
             font-size: 14px;
-            color: #6b7280;
+            color: var(--text-dim);
             font-weight: 500;
         }
 
@@ -369,22 +375,22 @@
             width: 64px;
             height: 64px;
             border-radius: 50%;
-            background: linear-gradient(135deg, #10b981, #059669);
+            background: rgba(16, 185, 129, 0.15);
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
+            color: var(--success);
         }
 
         .merge-result h3 {
             font-size: 20px;
             font-weight: 800;
-            color: #1f2937;
+            color: var(--text-bright);
         }
 
         .merge-result p {
             font-size: 14px;
-            color: #6b7280;
+            color: var(--text-dim);
         }
 
         .merge-result-actions {
@@ -397,10 +403,10 @@
             align-items: center;
             gap: 8px;
             padding: 12px 28px;
-            background: linear-gradient(135deg, #10b981, #059669);
+            background: linear-gradient(135deg, var(--success), #059669);
             color: white;
             border: none;
-            border-radius: 12px;
+            border-radius: var(--radius-sm);
             font-size: 15px;
             font-weight: 700;
             cursor: pointer;
@@ -411,15 +417,15 @@
 
         .btn-dl-merged:hover {
             transform: translateY(-1px);
-            box-shadow: 0 6px 24px rgba(16, 185, 129, 0.4);
+            box-shadow: 0 8px 30px -8px rgba(16, 185, 129, 0.5);
         }
 
         .btn-merge-another {
             padding: 12px 24px;
-            background: #f3f4f6;
-            color: #6b7280;
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
+            background: var(--bg-input);
+            color: var(--text-dim);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            border-radius: var(--radius-sm);
             font-size: 14px;
             font-weight: 600;
             cursor: pointer;
@@ -428,8 +434,8 @@
         }
 
         .btn-merge-another:hover {
-            background: #e5e7eb;
-            color: #374151;
+            background: rgba(99, 102, 241, 0.08);
+            color: var(--text);
         }
 
         /* Merged audio player */

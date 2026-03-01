@@ -378,22 +378,86 @@ function renderPart(partNum) {
       case "SENTENCE_COMPLETION":
       case "NOTE_COMPLETION":
       case "SUMMARY_COMPLETION":
-      case "FLOW_CHART_COMPLETION":
-      case "TABLE_COMPLETION": {
+      case "FLOW_CHART_COMPLETION": {
         html += `<div class="completion-section">`;
         if (section.questionText) {
           html += renderInlineInputs(section.questionText);
         } else {
           section.questions.forEach(q => {
             const saved = answers[`q${q.questionNumber}`] || "";
-            html += `<div class="input-question" id="question-${q.questionNumber}">
-              <div class="input-row">
-                <span class="q-num">${q.questionNumber}</span>
-                <span class="short-q-text">${q.questionText || ""}</span>
-                <input type="text" class="short-answer-input" id="input-${q.questionNumber}" value="${saved}"
-                  placeholder="..." oninput="saveAnswer(${q.questionNumber}, this.value)">
-              </div>
-            </div>`;
+            const qText = q.questionText || "";
+            // Check if questionText has {N} placeholder for inline input
+            if (/\{\d+\}/.test(qText)) {
+              html += `<div class="sentence-item" id="question-${q.questionNumber}">
+                <span class="q-num">${q.questionNumber}.</span>
+                <span class="sentence-text">${renderInlineInputs(qText)}</span>
+              </div>`;
+            } else {
+              html += `<div class="input-question" id="question-${q.questionNumber}">
+                <div class="input-row">
+                  <span class="q-num">${q.questionNumber}</span>
+                  <span class="short-q-text">${qText}</span>
+                  <input type="text" class="short-answer-input" id="input-${q.questionNumber}" value="${saved}"
+                    placeholder="..." oninput="saveAnswer(${q.questionNumber}, this.value)">
+                </div>
+              </div>`;
+            }
+          });
+        }
+        html += `</div>`;
+        break;
+      }
+      case "TABLE_COMPLETION": {
+        html += `<div class="completion-section">`;
+        if (section.tableData && section.tableData.headers && section.tableData.rows) {
+          // Render HTML table from tableData JSON
+          const td = section.tableData;
+          const subQNums = section.questions.map(q => q.questionNumber).sort((a, b) => a - b);
+          let blankIdx = 0;
+          html += `<table class="table-completion"><thead><tr>`;
+          td.headers.forEach(h => { html += `<th>${h}</th>`; });
+          html += `</tr></thead><tbody>`;
+          td.rows.forEach(row => {
+            html += `<tr>`;
+            row.forEach(cell => {
+              if (/^_{3,}$/.test(cell.trim()) || cell.trim() === '____') {
+                const qNum = subQNums[blankIdx] || 0;
+                blankIdx++;
+                const saved = answers[`q${qNum}`] || "";
+                html += `<td><input class="inline-input" type="text" id="question-${qNum}" data-q="${qNum}"
+                  placeholder="${qNum}" value="${saved}"
+                  oninput="saveAnswer(${qNum}, this.value)" autocomplete="off"></td>`;
+              } else if (/\{\d+\}/.test(cell)) {
+                // Cell contains {N} placeholder - render with inline input
+                html += `<td>${renderInlineInputs(cell)}</td>`;
+              } else {
+                html += `<td>${cell}</td>`;
+              }
+            });
+            html += `</tr>`;
+          });
+          html += `</tbody></table>`;
+        } else if (section.questionText) {
+          html += renderInlineInputs(section.questionText);
+        } else {
+          section.questions.forEach(q => {
+            const saved = answers[`q${q.questionNumber}`] || "";
+            const qText = q.questionText || "";
+            if (/\{\d+\}/.test(qText)) {
+              html += `<div class="sentence-item" id="question-${q.questionNumber}">
+                <span class="q-num">${q.questionNumber}.</span>
+                <span class="sentence-text">${renderInlineInputs(qText)}</span>
+              </div>`;
+            } else {
+              html += `<div class="input-question" id="question-${q.questionNumber}">
+                <div class="input-row">
+                  <span class="q-num">${q.questionNumber}</span>
+                  <span class="short-q-text">${qText}</span>
+                  <input type="text" class="short-answer-input" id="input-${q.questionNumber}" value="${saved}"
+                    placeholder="..." oninput="saveAnswer(${q.questionNumber}, this.value)">
+                </div>
+              </div>`;
+            }
           });
         }
         html += `</div>`;
@@ -412,11 +476,51 @@ function renderPart(partNum) {
         html += `</div>`;
         break;
       }
+      case "PLAN_MAP_LABELLING": {
+        // Extract image from questionText HTML or section.image
+        const mapImgMatch = (section.questionText || "").match(/<img[^>]+src=["']([^"']+)["']/);
+        const mapImgSrc = mapImgMatch ? mapImgMatch[1] : (section.image || null);
+        if (mapImgSrc) {
+          html += `<div class="diagram-section"><img src="${mapImgSrc}" alt="Map" class="diagram-img"></div>`;
+        }
+        // Show options panel if options exist
+        const mapOpts = section.options || [];
+        if (mapOpts.length) {
+          html += `<div class="match-options-panel"><strong>Options:</strong> ${mapOpts.map(o =>
+            `<span class="match-option-chip"><strong>${o.optionKey}</strong> ${o.optionText || ""}</span>`).join("")}</div>`;
+        }
+        // Render sub-questions as dropdown selects
+        section.questions.forEach(q => {
+          const saved = answers[`q${q.questionNumber}`] || "";
+          if (mapOpts.length) {
+            html += `<div class="match-row" id="question-${q.questionNumber}">
+              <span class="q-num">${q.questionNumber}</span>
+              <span class="match-text">${q.questionText || ""}</span>
+              <select onchange="saveAnswer(${q.questionNumber}, this.value)">
+                <option value="">-- Select --</option>
+                ${mapOpts.map(o => `<option value="${o.optionKey}" ${saved === o.optionKey ? "selected" : ""}>${o.optionKey} ${o.optionText ? '- ' + o.optionText : ''}</option>`).join("")}
+              </select>
+            </div>`;
+          } else {
+            html += `<div class="input-question" id="question-${q.questionNumber}">
+              <div class="input-row">
+                <span class="q-num">${q.questionNumber}</span>
+                <span class="short-q-text">${q.questionText || ""}</span>
+              </div>
+              <input type="text" class="short-answer-input" id="input-${q.questionNumber}" value="${saved}"
+                placeholder="Your answer..." oninput="saveAnswer(${q.questionNumber}, this.value)">
+            </div>`;
+          }
+        });
+        break;
+      }
       case "DIAGRAM_LABELLING":
-      case "PLAN_MAP_LABELLING":
       case "SHORT_ANSWER": {
-        if (section.image) {
-          html += `<div class="diagram-section"><img src="${section.image}" alt="Diagram" class="diagram-img"></div>`;
+        // Extract image from questionText HTML or section.image
+        const diagImgMatch = (section.questionText || "").match(/<img[^>]+src=["']([^"']+)["']/);
+        const diagImgSrc = diagImgMatch ? diagImgMatch[1] : (section.image || null);
+        if (diagImgSrc) {
+          html += `<div class="diagram-section"><img src="${diagImgSrc}" alt="Diagram" class="diagram-img"></div>`;
         }
         section.questions.forEach(q => {
           const saved = answers[`q${q.questionNumber}`] || "";

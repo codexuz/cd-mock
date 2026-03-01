@@ -5,7 +5,7 @@ const path = require('path');
 // READ TEMPLATE FILES
 // ============================
 function readFile(filename) {
-    return fs.readFileSync(path.join(__dirname, '../public', filename), 'utf-8');
+    return fs.readFileSync(path.join(__dirname, '../public/templates', filename), 'utf-8');
 }
 
 // ============================
@@ -19,8 +19,8 @@ function generateReadingTest(testData) {
     // Replace the TEST_DATA in app.js with user's data
     const dataJson = JSON.stringify(testData, null, 2);
     const modifiedJs = appJs.replace(
-        /const TEST_DATA = \{[\s\S]*?\n\};/,
-        `const TEST_DATA = ${dataJson};`
+        /const TEST_DATA = \{[\s\S]*?\n\};\s*\n\n?\/\//,
+        `const TEST_DATA = ${dataJson};\n\n//`
     );
 
     // Build self-contained HTML
@@ -40,8 +40,8 @@ function generateListeningTest(testData) {
     // Replace the LISTEN_DATA in listening.js with user's data
     const dataJson = JSON.stringify(testData, null, 2);
     const modifiedJs = listenJs.replace(
-        /const LISTEN_DATA = \{[\s\S]*?\n\};/,
-        `const LISTEN_DATA = ${dataJson};`
+        /const LISTEN_DATA = \{[\s\S]*?\n\};\s*\n\n?\/\//,
+        `const LISTEN_DATA = ${dataJson};\n\n//`
     );
 
     // Combine both CSS files

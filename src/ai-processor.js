@@ -21,7 +21,6 @@ Output ONLY valid JSON in this exact format, adopting the specified question typ
         "instruction": "Do the following statements agree with...",
         "type": "TRUE_FALSE_NOT_GIVEN",
         "questionText": "Optional shared context (such as HTML for note completion with {1}, {2} blanks)",
-        "image": "data:image/png;base64,...",
         "options": [
            { "optionKey": "i", "optionText": "Heading 1" }
         ],
@@ -63,7 +62,6 @@ SUPPORTED QUESTION TYPES (Choose exact string):
 RULES:
 - Ensure passage HTML is well-formatted. Use <p><strong>A.</strong> ...</p> for labeled paragraphs.
 - For completion types, insert {N} in the questionText (where N is the question number) to represent blanks.
-- If you find [IMAGE: data:image/...;base64,...] in the document, assign it to the "image" field of the relevant question section (especially for DIAGRAM_LABELLING).
 - Ensure question numbers strictly progress 1 to 40.
 - All answers must be a single string.
 - Output ONLY JSON.`;
@@ -87,7 +85,6 @@ Output ONLY valid JSON in this exact format.
         "instruction": "Complete the form below.",
         "type": "NOTE_COMPLETION",
         "questionText": "<h4>Form Title</h4><ul><li>Name: {1}</li><li>Address: {2}</li></ul>",
-        "image": "data:image/png;base64,...",
         "options": [],
         "questions": [
           { "questionNumber": 1, "correctAnswer": "Smith" },
@@ -96,14 +93,49 @@ Output ONLY valid JSON in this exact format.
       }
     ]
   },
-  "2": { ... },
+  "2": {
+    "title": "Part 2",
+    "instruction": "Listen and answer questions 11-20.",
+    "questions": [
+      {
+        "section": "Questions 11-15",
+        "instruction": "Choose the correct letter, A, B, or C.",
+        "type": "MULTIPLE_CHOICE",
+        "questions": [
+          {
+            "questionNumber": 11,
+            "questionText": "What does the speaker say?",
+            "options": [
+              { "optionKey": "A", "optionText": "First option" },
+              { "optionKey": "B", "optionText": "Second option" },
+              { "optionKey": "C", "optionText": "Third option" }
+            ],
+            "correctAnswer": "B"
+          }
+        ]
+      },
+      {
+        "section": "Questions 16-20",
+        "instruction": "Label the map below.",
+        "type": "PLAN_MAP_LABELLING",
+        "image": "https://example.com/map.jpg",
+        "options": [
+          { "optionKey": "A", "optionText": "Library" },
+          { "optionKey": "B", "optionText": "Cafeteria" }
+        ],
+        "questions": [
+          { "questionNumber": 16, "questionText": "Building 1 amounts to", "correctAnswer": "A" }
+        ]
+      }
+    ]
+  },
   "3": { ... },
   "4": { ... }
 }
 
 SUPPORTED QUESTION TYPES (Choose exact string):
-1. MULTIPLE_CHOICE
-2. MULTIPLE_ANSWER
+1. MULTIPLE_CHOICE (Must include 'options' array with optionKey and optionText inside each question)
+2. MULTIPLE_ANSWER (Must include 'options' array at the section level, and correctAnswer for each question number)
 3. TRUE_FALSE_NOT_GIVEN
 4. MATCHING_INFORMATION
 5. MATCHING_FEATURES
@@ -112,13 +144,14 @@ SUPPORTED QUESTION TYPES (Choose exact string):
 8. NOTE_COMPLETION
 9. TABLE_COMPLETION
 10. FLOW_CHART_COMPLETION
-11. DIAGRAM_LABELLING
-12. PLAN_MAP_LABELLING
+11. DIAGRAM_LABELLING (Must extract 'image' field if an image URL or [IMAGE: src] is present)
+12. PLAN_MAP_LABELLING (Must extract 'image' field if an image URL or [IMAGE: src] is present)
 13. SHORT_ANSWER
 
 RULES:
 - For completion types, use {N} placeholders in the questionText HTML.
-- If you find [IMAGE: data:image/...;base64,...] in the document, assign it to the "image" field of the relevant question section (especially for PLAN_MAP_LABELLING or DIAGRAM_LABELLING).
+- For MULTIPLE_CHOICE, ensure each question has an 'options' array.
+- For DIAGRAM_LABELLING/PLAN_MAP_LABELLING, include the 'image' field with the URL.
 - Ensure question numbers are sequential 1-40.
 - Follow the exact structure: part -> questions -> section -> questions array -> questionNumber + correctAnswer.
 - Output ONLY the JSON, no markdown, no explanation.`;

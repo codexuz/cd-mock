@@ -560,7 +560,7 @@ function saveAnswer(num, value) {
 
 function saveMulti(checkbox, nums) {
   // Gather all checked values
-  const parent = checkbox.closest(".l-mcq-options");
+  const parent = checkbox.closest(".options");
   const checked = Array.from(parent.querySelectorAll("input:checked")).map(c => c.value);
   // Assign to nums in order
   nums.forEach((n, i) => {

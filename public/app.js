@@ -307,12 +307,20 @@ function renderPart(partNum) {
         break;
       }
       case "MULTIPLE_CHOICE": {
+        // Fallback to section options if individual question misses options
+        const parseOptions = (q) => {
+          if (q.options && q.options.length > 0) return q.options;
+          if (section.options && section.options.length > 0) return section.options;
+          return [];
+        };
+
         section.questions.forEach(q => {
           const saved = answers[`q${q.questionNumber}`] || "";
+          const opts = parseOptions(q);
           html += `<div class="question" id="question-${q.questionNumber}">
             <div class="question-label"><span class="q-num">${q.questionNumber}</span> ${q.questionText}</div>
             <div class="options">
-              ${(q.options || []).map(opt => `
+              ${opts.map(opt => `
                 <label class="option-label">
                   <input type="radio" name="q${q.questionNumber}" value="${opt.optionKey}" ${saved === opt.optionKey ? "checked" : ""}
                     onchange="saveAnswer(${q.questionNumber}, '${opt.optionKey}')">

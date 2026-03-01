@@ -138,7 +138,7 @@ async function extractText(buffer, ext) {
             return extractFromDocx(buffer);
         case '.html':
         case '.htm':
-            return extractFromHtml(buffer);
+            return await extractFromHtml(buffer);
         case '.txt':
             return buffer.toString('utf-8');
         default:
@@ -152,16 +152,64 @@ async function extractFromPdf(buffer) {
 }
 
 async function extractFromDocx(buffer) {
-    const result = await mammoth.extractRawText({ buffer });
-    return result.value;
+    const options = {
+        convertImage: mammoth.images.imgElement(function (image) {
+            return image.read("base64").then(function (imageBuffer) {
+                return {
+                    src: "data:" + image.contentType + ";base64," + imageBuffer
+                };
+            });
+        })
+    };
+    const result = await mammoth.convertToHtml({ buffer }, options);
+    const $ = cheerio.load(result.value);
+
+    let textOut = "";
+    $('*').each((i, el) => {
+        if (el.tagName === 'img') {
+            textOut += `\n[IMAGE: ${$(el).attr('src')}]\n`;
+        } else if (el.type === 'text') {
+            textOut += $(el).text() + ' ';
+        }
+    });
+
+    return textOut.replace(/\s+/g, ' ').trim();
 }
 
-function extractFromHtml(buffer) {
+async function extractFromHtml(buffer) {
     const htmlString = buffer.toString('utf-8');
     const $ = cheerio.load(htmlString);
-    // Remove script and style elements
     $('script, style').remove();
-    return $.text().replace(/\s+/g, ' ').trim();
+
+    let textOut = "";
+
+    // We will parse images and convert them into a raw text representation the AI can understand
+    const elements = $('*');
+    for (let i = 0; i < elements.length; i++) {
+        const el = elements[i];
+        if (el.tagName === 'img') {
+            const src = $(el).attr('src');
+            if (src) {
+                if (src.startsWith('data:image')) {
+                    textOut += `\n[IMAGE: ${src}]\n`;
+                } else if (src.startsWith('http')) {
+                    try {
+                        const axios = require('axios');
+                        const response = await axios.get(src, { responseType: 'arraybuffer' });
+                        const base64 = Buffer.from(response.data, 'binary').toString('base64');
+                        const contentType = response.headers['content-type'];
+                        textOut += `\n[IMAGE: data:${contentType};base64,${base64}]\n`;
+                    } catch (e) {
+                        console.warn('Failed to fetch image:', src);
+                    }
+                }
+            }
+        } else if (el.type === 'text') {
+            textOut += $(el).text() + ' ';
+        }
+    }
+
+    return textOut.replace(/\s+/g, ' ').trim();
 }
 
 // ============================

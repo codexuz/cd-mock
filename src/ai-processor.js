@@ -95,6 +95,9 @@ SUPPORTED QUESTION TYPES (Choose exact string):
 12. NOTE_COMPLETION
     - Sub-questions only. Section questionText has {N} placeholders in HTML.
     - correctAnswer = text from passage.
+    - IMPORTANT: Preserve bold section headers from the original document as <p><strong>Section Title</strong></p> or <h4>Title</h4> within questionText.
+    - Use <ul><li> for bullet lists. Keep the hierarchical structure of the original form/notes.
+    - Example: "<h4>The London Relocation Services</h4><p><strong>Customer's personal details</strong></p><ul><li>Current address: 118 {1} Park, Ballysillan</li><li>Postcode: BT149BJ</li></ul><p><strong>Other information</strong></p><ul><li>Anna is hoping to find work as a {3}</li></ul>"
 
 13. TABLE_COMPLETION
     - Sub-questions + tableData JSON at section level.
@@ -233,6 +236,9 @@ SUPPORTED QUESTION TYPES (Choose exact string):
 7. NOTE_COMPLETION
    - Sub-questions only. Section questionText has {N} placeholders in HTML.
    - correctAnswer = text.
+   - IMPORTANT: Preserve bold section headers from the original document as <p><strong>Section Title</strong></p> or <h4>Title</h4> within questionText.
+   - Use <ul><li> for bullet lists. Keep the hierarchical structure of the original form/notes.
+   - Example: "<h4>Form Title</h4><p><strong>Personal details</strong></p><ul><li>Name: {1}</li><li>Phone No: {2} (Mobile)</li></ul><p><strong>Other information</strong></p><ul><li>Prefers to work as a {3}</li></ul>"
 
 8. TABLE_COMPLETION
    - Sub-questions + tableData JSON at section level.

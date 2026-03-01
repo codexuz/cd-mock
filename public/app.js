@@ -348,7 +348,12 @@ function renderPart(partNum) {
       case "MATCHING_INFORMATION":
       case "MATCHING_FEATURES":
       case "MATCHING_SENTENCE_ENDINGS": {
-        const optDict = section.options || (section.headingOptions ? Object.keys(section.headingOptions).map(k => ({ optionKey: k, optionText: section.headingOptions[k] })) : []);
+        let optDict = section.options || (section.headingOptions ? Object.keys(section.headingOptions).map(k => ({ optionKey: k, optionText: section.headingOptions[k] })) : []);
+
+        // Fallback for MATCHING_INFORMATION where explicit options might be omitted
+        if (optDict.length === 0 && section.type === "MATCHING_INFORMATION") {
+          optDict = ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"].map(k => ({ optionKey: k, optionText: `Paragraph ${k}` }));
+        }
         if (optDict.length && !section.options) {
           html += `<div class="match-options-panel"><strong>Options:</strong> ${optDict.map(o =>
             `<span class="match-option-chip"><strong>${o.optionKey}</strong> ${o.optionText || ""}</span>`).join("")}</div>`;
@@ -432,8 +437,9 @@ function renderPart(partNum) {
   document.getElementById("questionsPanel").innerHTML = html;
 
   // Highlight active
-  document.querySelectorAll(".part-nav button").forEach(b => b.classList.remove("active"));
-  document.getElementById(`btnPart${partNum}`).classList.add("active");
+  document.querySelectorAll(".part-tab").forEach(b => b.classList.remove("active"));
+  const activeBtn = document.querySelector(`.part-tab[data-part="${partNum}"]`);
+  if (activeBtn) activeBtn.classList.add("active");
   updateReviewCounts();
 }
 
@@ -996,4 +1002,82 @@ function drop(ev) {
     const event = new Event('input', { bubbles: true });
     ev.target.dispatchEvent(event);
   }
+}
+
+// ============================
+// MISSING SUPPORT FUNCTIONS
+// ============================
+
+function stopTimer() {
+  if (timerInterval) {
+    clearInterval(timerInterval);
+  }
+  timerRunning = false;
+  const btn = document.getElementById("btnStart");
+  if (btn) {
+    btn.textContent = "Start";
+    btn.classList.remove("running");
+  }
+}
+
+function updateAnswerCount() {
+  const el = document.getElementById("answerCount");
+  if (!el) return;
+  const range = PART_RANGES[currentPart];
+  if (!range) return;
+  const [start, end] = range;
+  const total = end - start + 1;
+  let count = 0;
+  for (let i = start; i <= end; i++) {
+    if (answers[`q${i}`] || (answers[`multi_${i}`] && answers[`multi_${i}`].length > 0)) count++;
+  }
+  el.innerHTML = `Part ${currentPart} &nbsp; ${count}/${total}`;
+}
+
+function renderQNumbers() {
+  const container = document.getElementById("qNumbers");
+  if (!container) return;
+  const range = PART_RANGES[currentPart];
+  if (!range) return;
+  const [start, end] = range;
+  let html = "";
+  for (let i = start; i <= end; i++) {
+    const isAnswered = answers[`q${i}`] || (answers[`multi_${i}`] && answers[`multi_${i}`].length > 0) ? "answered" : "";
+    html += `<button class="q-num-btn ${isAnswered}" onclick="scrollToQ(${i})">${i}</button>`;
+  }
+  container.innerHTML = html;
+}
+
+function updateReviewCounts() {
+  renderQNumbers();
+  updateAnswerCount();
+}
+
+function saveMulti(checkbox, nums) {
+  const val = checkbox.value;
+  const checked = checkbox.checked;
+  const startNum = nums[0];
+  if (!answers[`multi_${startNum}`]) answers[`multi_${startNum}`] = [];
+  let arr = answers[`multi_${startNum}`];
+
+  if (checked && !arr.includes(val)) {
+    if (arr.length < nums.length) arr.push(val);
+    else { checkbox.checked = false; return; } // max selected
+  } else if (!checked) {
+    arr = arr.filter(v => v !== val);
+  }
+  answers[`multi_${startNum}`] = arr;
+
+  // Map back to q_num for scoring
+  for (let i = 0; i < nums.length; i++) {
+    const qn = nums[i];
+    if (i < arr.length) {
+      answers[`q${qn}`] = arr[i];
+    } else {
+      delete answers[`q${qn}`];
+    }
+  }
+
+  renderQNumbers();
+  updateAnswerCount();
 }

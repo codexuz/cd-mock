@@ -8,6 +8,7 @@ const mammoth = require('mammoth');
 const cheerio = require('cheerio');
 const { processTestFile } = require('./ai-processor');
 const { generateReadingTest, generateListeningTest } = require('./template-generator');
+const { processOcr } = require('./ocr-processor');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -35,9 +36,9 @@ const upload = multer({
     storage: multer.memoryStorage(),
     limits: { fileSize: 20 * 1024 * 1024 }, // 20MB max
     fileFilter: (req, file, cb) => {
-        const allowed = ['.pdf', '.docx', '.html', '.htm', '.txt'];
+        const allowed = ['.pdf', '.docx', '.html', '.htm', '.txt', '.jpg', '.jpeg', '.png', '.webp'];
         const ext = path.extname(file.originalname).toLowerCase();
-        if (allowed.includes(ext)) {
+        if (allowed.includes(ext) || file.mimetype.startsWith('image/')) {
             cb(null, true);
         } else {
             cb(new Error(`Unsupported file type: ${ext}. Accepted: ${allowed.join(', ')}`));
@@ -97,6 +98,32 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
     } catch (err) {
         console.error('Upload error:', err);
         res.status(500).json({ error: err.message || 'Failed to process file' });
+    }
+});
+
+// OCR Endpoint
+app.post('/api/ocr', upload.single('file'), async (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ error: 'No file uploaded' });
+        }
+
+        const apiKey = process.env.OPENAI_API_KEY;
+        if (!apiKey) {
+            return res.status(400).json({ error: 'OpenAI API key is required' });
+        }
+
+        console.log(`Processing OCR for: ${req.file.originalname} (${req.file.mimetype})`);
+        const text = await processOcr(req.file.buffer, req.file.mimetype, apiKey);
+
+        res.json({
+            success: true,
+            text,
+            message: 'OCR completed successfully'
+        });
+    } catch (err) {
+        console.error('OCR error:', err);
+        res.status(500).json({ error: err.message || 'Failed to perform OCR' });
     }
 });
 

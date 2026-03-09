@@ -275,7 +275,8 @@
         async function startOcr() {
             if (!selectedFile) return;
 
-            progressOverlay.classList.add('active');
+            progressOverlay.classList.add('show');
+            btnProcess.disabled = true;
             resultArea.style.display = 'none';
 
             const formData = new FormData();
@@ -299,14 +300,15 @@
             } catch (err) {
                 showError('Network error occurred');
             } finally {
-                progressOverlay.classList.remove('active');
+                progressOverlay.classList.remove('show');
+                btnProcess.disabled = false;
             }
         }
 
         function showError(msg) {
             errorMsg.textContent = msg;
-            errorToast.classList.add('active');
-            setTimeout(() => errorToast.classList.remove('active'), 5000);
+            errorToast.classList.add('show');
+            setTimeout(() => errorToast.classList.remove('show'), 5000);
         }
 
         function copyResult() {

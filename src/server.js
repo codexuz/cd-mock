@@ -52,7 +52,7 @@ const upload = multer({
 
 // Serve builder UI
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../public/builder.html'));
+    res.sendFile(path.join(__dirname, '../public/index.html'));
 });
 
 // Upload & process file
@@ -68,8 +68,8 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
         }
 
         const testType = req.body.testType || 'reading';
-        if (!['reading', 'listening'].includes(testType)) {
-            return res.status(400).json({ error: 'Invalid test type. Use "reading" or "listening".' });
+        if (!['reading', 'listening', 'writing', 'full'].includes(testType)) {
+            return res.status(400).json({ error: 'Invalid test type. Use "reading", "listening", "writing", or "full".' });
         }
 
         // Extract text from file
@@ -144,7 +144,7 @@ app.post('/api/generate', async (req, res) => {
             await embedImages(testData);
             html = generateListeningTest(testData);
         } else {
-            return res.status(400).json({ error: 'Invalid test type' });
+            return res.status(400).json({ error: 'HTML generation only supports reading and listening types.' });
         }
 
         res.setHeader('Content-Type', 'text/html');
@@ -153,6 +153,25 @@ app.post('/api/generate', async (req, res) => {
     } catch (err) {
         console.error('Generate error:', err);
         res.status(500).json({ error: err.message || 'Failed to generate test' });
+    }
+});
+
+// Download JSON in ielts-test-data format
+app.post('/api/generate-json', (req, res) => {
+    try {
+        const { testData, testType } = req.body;
+
+        if (!testData) {
+            return res.status(400).json({ error: 'testData is required' });
+        }
+
+        const json = JSON.stringify(testData, null, 2);
+        res.setHeader('Content-Type', 'application/json');
+        res.setHeader('Content-Disposition', `attachment; filename="ielts-${testType || 'test'}-data.json"`);
+        res.send(json);
+    } catch (err) {
+        console.error('Generate JSON error:', err);
+        res.status(500).json({ error: err.message || 'Failed to generate JSON' });
     }
 });
 

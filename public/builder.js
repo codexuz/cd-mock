@@ -142,24 +142,29 @@ async function startGeneration() {
         // Small delay for UX
         await sleep(800);
 
-        // Step 3: Generate HTML
-        updateProgress(3, 'Generating interactive HTML test...');
+        // Step 3: Generate HTML (only for reading/listening)
+        if (selectedType === 'reading' || selectedType === 'listening') {
+            updateProgress(3, 'Generating interactive HTML test...');
 
-        const genRes = await fetch('/api/generate', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                testData: generatedTestData,
-                testType: selectedType
-            })
-        });
+            const genRes = await fetch('/api/generate', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    testData: generatedTestData,
+                    testType: selectedType
+                })
+            });
 
-        if (!genRes.ok) {
-            const err = await genRes.json();
-            throw new Error(err.error || 'Generation failed');
+            if (!genRes.ok) {
+                const err = await genRes.json();
+                throw new Error(err.error || 'Generation failed');
+            }
+
+            generatedHtml = await genRes.text();
+        } else {
+            updateProgress(3, 'JSON data ready for download...');
+            generatedHtml = null;
         }
-
-        generatedHtml = await genRes.text();
 
         await sleep(600);
         hideProgress();
@@ -218,9 +223,16 @@ function showResult() {
     resultCard.style.display = '';
 
     // Update description
-    const typeLabel = selectedType === 'reading' ? 'Reading' : 'Listening';
+    const typeLabels = { reading: 'Reading', listening: 'Listening', writing: 'Writing', full: 'Full' };
+    const typeLabel = typeLabels[selectedType] || selectedType;
     document.getElementById('resultDesc').textContent =
-        `Your IELTS ${typeLabel} test is ready for download.`;
+        `Your IELTS ${typeLabel} test data is ready for download.`;
+
+    // Show/hide HTML download button (only for reading/listening)
+    const btnHtml = document.getElementById('btnDownload');
+    if (btnHtml) {
+        btnHtml.style.display = (selectedType === 'reading' || selectedType === 'listening') ? '' : 'none';
+    }
 
     // Render preview
     renderPreview();
@@ -228,51 +240,103 @@ function showResult() {
 
 function renderPreview() {
     const parts = document.getElementById('previewParts');
-    const numParts = selectedType === 'reading' ? 3 : 4;
     let html = '';
 
-    for (let i = 1; i <= numParts; i++) {
-        const partData = generatedTestData[String(i)] || generatedTestData[i];
-        if (!partData) continue;
-
-        const qCount = countQuestions(partData.questions);
-        const types = getQuestionTypes(partData.questions);
-
-        html += `
+    if (selectedType === 'reading' || selectedType === 'full') {
+        const readingParts = generatedTestData.readingParts || [];
+        readingParts.forEach((part, i) => {
+            const qCount = countPartQuestions(part.questions);
+            const types = getPartQuestionTypes(part.questions);
+            html += `
       <div class="preview-part">
-        <span class="preview-part-num">Part ${i}</span>
-        <span class="preview-part-info">${partData.instruction}</span>
+        <span class="preview-part-num">Reading ${i + 1}</span>
+        <span class="preview-part-info">${part.title || ''}</span>
         <span class="preview-part-badge">${qCount} Qs • ${types}</span>
       </div>`;
+        });
     }
 
-    parts.innerHTML = html;
+    if (selectedType === 'listening' || selectedType === 'full') {
+        const listeningParts = generatedTestData.listeningParts || [];
+        listeningParts.forEach((part, i) => {
+            const qCount = countPartQuestions(part.questions);
+            const types = getPartQuestionTypes(part.questions);
+            html += `
+      <div class="preview-part">
+        <span class="preview-part-num">Listening ${i + 1}</span>
+        <span class="preview-part-info">${part.title || ''}</span>
+        <span class="preview-part-badge">${qCount} Qs • ${types}</span>
+      </div>`;
+        });
+    }
+
+    if (selectedType === 'writing' || selectedType === 'full') {
+        const tasks = generatedTestData.writingTasks || [];
+        tasks.forEach((task, i) => {
+            html += `
+      <div class="preview-part">
+        <span class="preview-part-num">Writing Task ${i + 1}</span>
+        <span class="preview-part-info">${task.min_words || 150}+ words • ${task.suggested_time || 20} min</span>
+      </div>`;
+        });
+    }
+
+    // Fallback: try old format (keys "1", "2", etc.)
+    if (!html) {
+        const numParts = selectedType === 'reading' ? 3 : 4;
+        for (let i = 1; i <= numParts; i++) {
+            const partData = generatedTestData[String(i)] || generatedTestData[i];
+            if (!partData) continue;
+            const qCount = countPartQuestions(partData.questions || []);
+            const types = getPartQuestionTypes(partData.questions || []);
+            html += `
+      <div class="preview-part">
+        <span class="preview-part-num">Part ${i}</span>
+        <span class="preview-part-info">${partData.title || partData.instruction || ''}</span>
+        <span class="preview-part-badge">${qCount} Qs • ${types}</span>
+      </div>`;
+        }
+    }
+
+    parts.innerHTML = html || '<p style="color:#94a3b8;text-align:center;">Preview not available</p>';
 }
 
-function countQuestions(questions) {
+function countPartQuestions(questions) {
+    if (!questions || !Array.isArray(questions)) return 0;
     let count = 0;
-    questions.forEach(section => {
-        if (section.items) count += section.items.length;
-        else if (section.nums) count += section.nums.length;
-        else if (section.answers && typeof section.answers === 'object') {
-            count += Object.keys(section.answers).length;
+    questions.forEach(group => {
+        if (group.questions && Array.isArray(group.questions)) {
+            count += group.questions.length;
+        } else {
+            count += 1; // standalone question (e.g. MULTIPLE_CHOICE)
         }
     });
     return count;
 }
 
-function getQuestionTypes(questions) {
-    const typeMap = {
-        'tfng': 'T/F/NG',
-        'ynnng': 'Y/N/NG',
-        'fill': 'Fill',
-        'mcq': 'MCQ',
-        'select': 'Select',
-        'multi': 'Multi',
-        'match': 'Match'
+function getPartQuestionTypes(questions) {
+    if (!questions || !Array.isArray(questions)) return '';
+    const shortNames = {
+        'TRUE_FALSE_NOT_GIVEN': 'T/F/NG',
+        'YES_NO_NOT_GIVEN': 'Y/N/NG',
+        'MULTIPLE_CHOICE': 'MCQ',
+        'MULTIPLE_ANSWER': 'Multi',
+        'MATCHING_HEADINGS': 'Headings',
+        'MATCHING_INFORMATION': 'Info Match',
+        'MATCHING_FEATURES': 'Features',
+        'MATCHING_SENTENCE_ENDINGS': 'Sentence End',
+        'SENTENCE_COMPLETION': 'Sentence',
+        'SUMMARY_COMPLETION': 'Summary',
+        'SUMMARY_COMPLETION_DRAG_DROP': 'Drag&Drop',
+        'NOTE_COMPLETION': 'Notes',
+        'TABLE_COMPLETION': 'Table',
+        'FLOW_CHART_COMPLETION': 'Flow Chart',
+        'DIAGRAM_LABELLING': 'Diagram',
+        'PLAN_MAP_LABELLING': 'Map',
+        'SHORT_ANSWER': 'Short Ans'
     };
-    const types = [...new Set(questions.map(q => typeMap[q.type] || q.type))];
-    return types.join(', ');
+    const types = [...new Set(questions.map(q => shortNames[q.type] || q.type || ''))].filter(Boolean);
+    return types.join(', ') || 'Mixed';
 }
 
 // ============================
@@ -286,6 +350,21 @@ function downloadTest() {
     const a = document.createElement('a');
     a.href = url;
     a.download = `ielts-${selectedType}-test.html`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+}
+
+function downloadJson() {
+    if (!generatedTestData) return;
+
+    const json = JSON.stringify(generatedTestData, null, 2);
+    const blob = new Blob([json], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `ielts-${selectedType}-data.json`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
